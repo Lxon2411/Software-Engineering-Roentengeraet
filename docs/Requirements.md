@@ -14,7 +14,7 @@
     <tr >
       <td>1.1</td>
       <td>Benutzerdefinierte Strahlungsdauer</td>
-      <td>Der Benutzer kann die auf einen sinnvollen Wertebereich begrenzte Strahlungsdauer manuell eingeben.</td>
+      <td>Der Benutzer kann die auf einen sinnvollen Wertebereich (1-120 sec) begrenzte Strahlungsdauer manuell eingeben.</td>
     </tr>
     <tr>
       <td>2.1</td>
@@ -24,12 +24,12 @@
     <tr>
       <td>3.1</td>
       <td>Automatisches Abschalten</td>
-      <td>Die Strahlung wird nach Ablauf der eingestellten dauer automatisch beendet.</td>
+      <td>Die Strahlung wird nach Ablauf der eingestellten Dauer automatisch beendet.</td>
     </tr>
     <tr>
       <td>4.1</td>
       <td>Manuelles Stoppen</td>
-      <td>Die Strahlung kann jederzeit manuell gestoppt werden, insbesondere im Notfall.</td>
+      <td>Die Strahlung kann jederzeit, wenn aktiv, manuell gestoppt werden.</td>
     </tr>
     <tr>
       <td>5.1</td>
@@ -64,7 +64,7 @@
     <tr>
       <td>1.2</td>
       <td>Sicherheit</td>
-      <td>Das manuelle Stoppen muss jederzeit zuverlässig funktionieren, insbesondere im Notfall.</td>
+      <td>Das manuelle Stoppen muss jederzeit bei aktiver Strahlung zuverlässig funktionieren.</td>
     </tr>
     <tr>
       <td>1.3</td>
@@ -79,7 +79,7 @@
       <tr>
       <td>1.5</td>
       <td>Ressourcen-Effizienz</td>
-      <td>Die Software soll ressourcenschonend (Speicher & Rechenleistung) arbeiten.</td>
+      <td>Die Software soll ressourcenschonend (30-70 MB RAM, 0-1% CPU Auslastung) arbeiten.</td>
     </tr>
   </tbody>
 </table>
