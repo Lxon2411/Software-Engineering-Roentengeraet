@@ -1,4 +1,4 @@
-# Pflichtenheft: Kontrolle der Strahlungsdauer für ein Röntgengerät
+# Pflichtenheft: Verwaltung & Überwachung der Strahlungsdauer für ein Röntgengerät
 
 1. Eingabe der Strahlungsdauer
    - Der Benutzer kann die Strahlungsdauer in Sekunden eingeben.
