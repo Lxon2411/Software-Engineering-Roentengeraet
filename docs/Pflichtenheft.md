@@ -24,7 +24,7 @@
       - Start der Strahlung.
       - Ende der eingestellten Dauer (automatischer Stopp).
       - Manuellem Notfall-Stopp
-   - Signale müssen auch **bei Umgebungsgeräuschen** wahrnehmbar sein (z.B. LED + Piepton)
+   - Signale müssen auch **bei Umgebungsgeräuschen (60+ dB)** wahrnehmbar sein (z.B. LED + Piepton)
       
 8. Anzeigen der aktuellen Strahlungsdauer
    - Implementierung einer Anzeige der abgelaufenen Strahlungsdauer (z.B. in Form eines Timers & eines Fortschrittbalkens)
