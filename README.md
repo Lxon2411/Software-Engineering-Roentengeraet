@@ -9,8 +9,8 @@ von Leon Wühr
 1. **Benutzerdefinierte Eingabe der Strahlungsdauer**
 2. **Starten der Strahlung**
 3. **Automatisches Abschalten nach Ablauf der eingestellten Dauer**
-4. **Manuelles Stoppen (z.B. im Falle eines Notfalls)
-5. Status- & Fortschrittsanzeige & Log
+4. **Manuelles Stoppen (z.B. im Falle eines Notfalls)**
+5. **Status- & Fortschrittsanzeige & Log**
 
 ### Gesamtdokumentation
 
