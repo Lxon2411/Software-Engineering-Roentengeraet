@@ -10,7 +10,7 @@ von Leon Wühr
 2. **Starten der Strahlung**
 3. **Automatisches Abschalten nach Ablauf der eingestellten Dauer**
 4. **Manuelles Stoppen (z.B. im Falle eines Notfalls)**
-5. **Status- und Fortschrittsanzeige & Log**
+5. **Status- und Fortschrittsanzeige**
 
 ### Gesamtdokumentation
 
