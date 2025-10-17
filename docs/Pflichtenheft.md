@@ -35,8 +35,8 @@
      - Startzeit, Stopzeit, eingestellte Dauer.
      - Art des Stopps (automatisch oder manuell).
    - Protokoll muss **fälschungssicher und eindeutig** sein.
-10. Systemverhalten bei Fehlern oder UNterbrechungen
-   - Bei Stromausfall oder Softwareabsturz:
-     - Strahlung wird **sofort deaktiviert.**
-     - Beim Neustart wird der **letzte bekannte Zustand angezeigt**, aber keine automatische Wiederaufnahme.
-     - Fehlerhafte Eingaben oder fehlende Hardwareverbindung führen zu **Fehlermeldung** und Sperrung der Startfunktion.
+10. Systemverhalten bei Fehlern oder Unterbrechungen
+      - Bei Stromausfall oder Softwareabsturz:
+         - Strahlung wird **sofort deaktiviert.**
+         - Beim Neustart wird der **letzte bekannte Zustand angezeigt**, aber keine automatische Wiederaufnahme.
+         - Fehlerhafte Eingaben oder fehlende Hardwareverbindung führen zu **Fehlermeldung** und Sperrung der Startfunktion.
