@@ -86,7 +86,7 @@
 
 ### 3. Abhängigkeiten zwischen Requirements
 - Das automatische Abschalten (3.1) ist abhängig von der korrekt eingegebenen Strahlungsdauer (1.1).
-- das manuelle Stoppen (4.1) kann jederzeit unabhängig von automatischen Ablauf ausgelöst werden.
+- Das manuelle Stoppen (4.1) kann jederzeit unabhängig von automatischen Ablauf ausgelöst werden.
 - Die Statusanzeige (5.1) muss sowohl den Start (2.1) als auch das Stoppen (3.1, 4.1) korrekt wiederspiegeln.
 - Das Ergeignis-Logging (5.2) erfordert verlässliche Meldungen aus allen anderen Funktionalitäten.
 
