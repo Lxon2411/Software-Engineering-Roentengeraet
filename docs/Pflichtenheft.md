@@ -26,15 +26,15 @@
       - Manuellem Notfall-Stopp
    - Signale müssen auch **bei Umgebungsgeräuschen (60+ dB)** wahrnehmbar sein (z.B. LED + Piepton)
       
-8. Anzeigen der aktuellen Strahlungsdauer
+7. Anzeigen der aktuellen Strahlungsdauer
    - Implementierung einer Anzeige der abgelaufenen Strahlungsdauer (z.B. in Form eines Timers & eines Fortschrittbalkens)
    - verzögerungsfreie (<500ms) Aktualisierung 
-9. Ereignisprotokollierung
+8. Ereignisprotokollierung
    - Alle interaktiven Vorgänge werden geloggt:
      - Startzeit, Stopzeit, eingestellte Dauer.
      - Art des Stopps (automatisch oder manuell).
-   - Protokoll muss **fälschungssicher und eindeutig** sein.
-10. Systemverhalten bei Fehlern oder Unterbrechungen
+   - Protokoll muss **fälschungssicher und eindeutig** sein. 
+9. Systemverhalten bei Fehlern oder Unterbrechungen
    - Bei Stromausfall oder Softwareabsturz:
      - Strahlung wird **sofort deaktiviert.**
      - Fehlerhafte Eingaben oder fehlende Hardwareverbindung führen zu **Fehlermeldung** und Sperrung der Startfunktion.
