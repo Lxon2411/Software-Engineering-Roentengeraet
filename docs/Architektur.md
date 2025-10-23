@@ -1,6 +1,8 @@
 # Softwarearchitektur
 Architekturtyp: **Schichten-/Komponentenarchitektur mit Trennung von Logik, Steuerung und GUI**
 
+## Komponentendiagramm
+![Architekturdiagramm](./images/Architektur_Komponentendiagramm.png)
 ## Hauptkomponenten:
 1. GUI-Schicht (Tkinter UI)
 - Darstellung und Benutzerinteraktion
