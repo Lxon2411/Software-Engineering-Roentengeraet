@@ -7,7 +7,7 @@ Architekturtyp: **Schichten-/Komponentenarchitektur mit Trennung von Logik, Steu
 1. GUI-Schicht (Tkinter UI)
 - Darstellung und Benutzerinteraktion
 - Buttons: Start/Stop
-- Anzeigen: Fortschrittsbalken, Reststrahlungszeit
+- Anzeigen: Status, Fortschrittsbalken, Reststrahlungszeit, Protokoll
 
 2. Steuerungs- /Logik-Schicht (Controller)
 - Überwacht Strahlungsdauer und Ablauf
