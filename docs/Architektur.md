@@ -16,7 +16,8 @@ Architekturtyp: **Schichten-/Komponentenarchitektur mit Trennung von Logik, Steu
 
 3. Systemschicht
 - Verwaltet Countdown und Zeitablauf
-- Liefert Zustandsänderungen an GUI
+- Steuern der Signaltöne
+- Systemprüfungen
 
 ## Technologien:
 - Python
