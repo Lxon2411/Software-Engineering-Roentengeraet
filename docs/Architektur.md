@@ -14,8 +14,8 @@ Architekturtyp: **Schichten-/Komponentenarchitektur mit Trennung von Logik, Steu
 - Kommuniziert mit GUI
 - Steuert Start/Stop und Fortschritt
 
-3. Simulations- / Timer-Komponente
-- Verwaltet countdown und Zeitablauf
+3. Systemschicht
+- Verwaltet Countdown und Zeitablauf
 - Liefert Zustandsänderungen an GUI
 
 ## Technologien:
