@@ -1,6 +1,9 @@
 ## Traceability-Matrix 
-| **Komponente**  | **Requirements**                                           |
-|-----------------|------------------------------------------------------------|
-| GUI             | Req. 1.1, Req. 2.1, Req. 4.1, Req. 5.1, Req 5.2            |
-| Steuerungslogik | Req. 1.1, Req. 2.1, Req. 3.1, Req. 4.1, Req. 5.1, Req. 5.2 |
-| Systemschicht   | Req. 3.1                                                   |
+| **Requirement-ID** | **Komponente**                 | **Klasse(n)**                                                  | **Schnittstelle(n)**                                                                      |
+|--------------------|--------------------------------|----------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| 1.1                | GUI, Steuerungslogik           | ```Radiation UI```, ```RadiationController```                  | ```toggle_radiation()```, ```start_radiation()```, ```stop_radiation()```                 |
+| 2.1                | GUI, Steuerungslogik           | ```Radiation UI```, ```RadiationController```                  | ```duration_entry.get()```, ```start_radiation()```                                       |
+| 3.1                | Steuerungslogik, Systemschicht | ```RadiationController```                                      | ```update_timer()```, ```time.time()```, ```winsound.Beep()```                            |
+| 4.1                | GUI, Steuerungslogik           | ```StatusLED```, ```Radiation UI```, ```RadiationController``` | ```set_on()```, ```set_off()```, ```progress['value']```, ```timer_label.config()```      |
+| 5.1                | GUI, Steuerungslogik           | ```Radiation UI```, ```RadiationController```                  | ```log_message()```, ```log_text.insert()```                                              |
+| 5.2                | GUI, Steuerungslogik           | ```RadiationController```                                      | ```messagebox.showerror()```, ```messagebox.showinfo()```, ```messagebox.showwarning()``` |

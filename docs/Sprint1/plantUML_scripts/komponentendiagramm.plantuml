@@ -1,33 +1,51 @@
 @startuml
-title Komponentendiagramm – Röntgengerät Steuerung (mit Schnittstellen und Methoden)
+title Komponentendiagramm
 
-' === Komponenten / Schichten ===
-component "GUI-Schicht" as GUI
-component "Steuerungslogik-Schicht" as Logic
-component "Systemschicht" as System
-
-interface IStrahlungssteuerung {
-    startRadiation(dauer)
-    stopRadiation()
-    getStatus()
+interface IUserInteraction {
+    + startButtonPressed()
+    + stopButtonPressed()
 }
 
-interface ISystemZugriff {
-    aktiviereSignalton(frequenz, dauer)
-    leseSysteminfo()
+interface ILogicControl {
+    + startRadiation()
+    + stopRadiation()
+    + toggleRadiation()
 }
 
-interface IBenutzeroberfläche {
-    zeigeStatus(aktiv)
-    logNachricht(text)
+interface ISystemAccess {
+    + getTime()
+    + playBeep(frequency, duration)
 }
 
-GUI -u-|> IStrahlungssteuerung : nutzt
-Logic -u-|> ISystemZugriff : nutzt
-Logic -d-|> IBenutzeroberfläche : ruft auf
+interface IUserInterface {
+    + updateProgress(percent)
+    + setLED(on)
+    + logMessage(msg)
+}
 
-GUI --> Logic : IStrahlungssteuerung
-Logic --> System : ISystemZugriff
-Logic --> GUI : IBenutzeroberfläche
+
+component "GUI-Komponente" as GUI {
+    class RadiationUI
+    class StatusLED
+}
+
+component "Steuerungslogik-Komponente" as Logic {
+    class RadiationController
+}
+
+component "System-Komponente" as System {
+    class SystemLayer
+}
+
+
+GUI -down-> Logic : nutzt >\nILogicControl
+Logic -down-> System : nutzt >\nISystemAccess
+Logic -up-> GUI : ruft auf >\nIUserInterface
+
+' Schnittstellenbindungen
+GUI ..> IUserInteraction
+Logic ..> ILogicControl
+Logic ..> IUserInterface
+System ..> ISystemAccess
 
 @enduml

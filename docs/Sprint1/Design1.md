@@ -1,7 +1,6 @@
 # Design
+Im Folgenden sind erste, exemplarische Entwürfe eines Klassendiagramms, Sequenzdiagramms, Zustanddiagramms und eines überarbeiteten Komponentendiagramms dargestellt. Verwendet für die Erstellung wurde der Online UML-Editor [PlantUML](https://editor.plantuml.com/).
 ## Klassendiagramm
-Im Folgenden ist ein erster, exemplarischer Entwurf eines Klassendiagramms mit vereinfachten Methoden dargestellt. Die dazugehörigen Komponenten wurden für eine übersichtlichere Abstraktion ebenfalls visualisiert. Verwendet für die Erstellung wurde der Online UML-Editor [PlantUML](https://editor.plantuml.com/).
-
 ![Klassendiagramm](images/Klassendiagramm.png)
 
 ## Sequenzdiagramm
@@ -11,6 +10,6 @@ Im Folgenden ist ein erster, exemplarischer Entwurf eines Klassendiagramms mit v
 ![Zustandsdiagramm](images/Zustandsdiagramm.png)
 
 ## Aktualisiertes Komponentendiagramm
-Das Komponentendiagramm wurde um Schnittstellen und Klassen ergänzt.
+Das Komponentendiagramm wurde um Schnittstellen und Klassen ergänzt:
 ![Komponentendiagramm](images/Komponentendiagramm.png)
 

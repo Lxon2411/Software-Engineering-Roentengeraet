@@ -21,11 +21,7 @@ Architekturtyp: **Schichten-/Komponentenarchitektur** mit Trennung von Logik, St
 - Systemprüfungen
 
 ## Traceability-Matrix 
-| **Komponente**  | **Requirements**                                           |
-|-----------------|------------------------------------------------------------|
-| GUI             | Req. 1.1, Req. 2.1, Req. 4.1, Req. 5.1, Req 5.2            |
-| Steuerungslogik | Req. 1.1, Req. 2.1, Req. 3.1, Req. 4.1, Req. 5.1, Req. 5.2 |
-| Systemschicht   | Req. 3.1                                                   |
+[Traceability-Matrix](./Traceability-Matrix.md)
 
 ## Verantwortlichkeiten der Komponenten
 | **Komponente**  | **Rolle**                        | Verantwortlichkeiten                                                                                                                                                                                    |
@@ -35,28 +31,28 @@ Architekturtyp: **Schichten-/Komponentenarchitektur** mit Trennung von Logik, St
 | Systemschicht   | technische Integrationsschicht   | -Simulation der Hardware<br/> - Zugriff auf OS-/Hardwarefunktionen (z.B. Tonwiedergabe via ``winsound``, Zeitsteuerung via ``after()``)<br/> - Ausgabe von Systemdialogen (z.B. ``messagebox.showinfo`` |
 
 ## Schnittstellen zwischen den Komponenten
-| **von**         | **an**          | **Beschreibung**                                                                    | Schnittstellen |
-|-----------------|-----------------|-------------------------------------------------------------------------------------|----------------|
-| GUI             | Steuerungslogik | Liefert die eingegebene Strahlungsdauer (int)                                       |                |
-| Steuerungslogik | GUI             | Ändert Text und Hintergrundfarbe des Start/Stop-Buttons                             |                |
-| Steuerungslogik | GUI             | Aktualisiert die Anzeige der Strahlungsdauer                                        |                |
-| Steuerungslogik | GUI             | Setzt den Wert des Fortschrittbalkens (0-100%)                                      |                |
-| Steuerungslogik | GUI             | Setzt die Status-LED auf grün oder rot                                              |                |
-| Steuerungslogik | GUI             | Fügt eine Meldung dem Logfeld hinzu                                                 |                |
-| Steuerungslogik | GUI             | Zeigt eine Messagebox (error/info/warning) an                                       |                |
-| Steuerungslogik | System          | Erzeugt einen akustischen Signalton (plattformabhängig, z.B. ```winsound.Beep()```) |                |
-| Steuerungslogik | System          | Liefert die aktuelle Zeit (z.B. ```time.time()```)                                  |                |
+| **von**         | **an**          | **Beschreibung**                                                                    | Schnittstellen                                                     |
+|-----------------|-----------------|-------------------------------------------------------------------------------------|--------------------------------------------------------------------|
+| GUI             | Steuerungslogik | Liefert die eingegebene Strahlungsdauer (int)                                       | ```IStrahlungssteuerung.startRadiation(dauer: int)```              |
+| Steuerungslogik | GUI             | Ändert Text und Hintergrundfarbe des Start/Stop-Buttons                             | ```IBenutzeroberfläche.aktualisiereButton(text: str, farbe:str)``` |
+| Steuerungslogik | GUI             | Aktualisiert die Anzeige der Strahlungsdauer                                        | ```IBenutzeroberfläche.zeigeStrahlungsdauer(dauer: float)```       |
+| Steuerungslogik | GUI             | Setzt den Wert des Fortschrittbalkens (0-100%)                                      | ```IBenutzeroberfläche.setzeFortschritt(prozent: float)```         |
+| Steuerungslogik | GUI             | Setzt die Status-LED auf grün oder rot                                              | ```IBenutzeroberfläche.setzeLED(aktiv: bool)```                    |
+| Steuerungslogik | GUI             | Fügt eine Meldung dem Logfeld hinzu                                                 | ```IBenutzeroberfläche.logNachricht(text: str)```                  |
+| Steuerungslogik | GUI             | Zeigt eine Messagebox (error/info/warning) an                                       | ```IBenutzeroberfläche.zeigeMessagebox(tex: str, typ: str)```      |
+| Steuerungslogik | System          | Erzeugt einen akustischen Signalton (plattformabhängig, z.B. ```winsound.Beep()```) | ```ISystemZugriff.spieleSignalton(frequenz: int, dauer: int)```    |
+| Steuerungslogik | System          | Liefert die aktuelle Zeit (z.B. ```time.time()```)                                  | ```ISystemZugriff.leseSystemzeit():float```                        |
 
 ## Technologiestack
-| **Kategorie**            | **Technologie/Tool**                                                         | Begründung                                                                                               |
-|--------------------------|------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
-| Sprache                  | Python 3.11.4                                                                | Modern & persönliche Erfahrung                                                                           | 
-| Buildsystem              | -                                                                            | kein Buildsystem notwendig                                                                               |
-| Versionskontrolle        | Git & GitHub                                                                 | Standard                                                                                                 |
-| IDE                      | PyCharm                                                                      | Standard Python-IDE, kompatibel für Doku in .md                                                          |
-| Ausgabe/GUI              | Tkinter (Standardbibliothek)                                                 | Plattformunabhängiges GUI-Toolkit, bereits in Python integriert                                          |
-| Dokumentation            | Markdown                                                                     | Standard, IDE-Integration                                                                                |
-| Codeanalyse              | flake8, pylint, mypy, Sonarqube                                              | Statische Codeanalyse für Syntax- und Stilprüfungen (``flake8``, ``pylint``) sowie Typprüfung (``mypy``) |
-| Test-Framework           | pytest                                                                       | Python-Testframework für Unit- & Integrationstests                                                       |
-| Frameworks, Bibliotheken | Tkinter für UI, ``winsound``, ``time``, ``patform``, ``ttk``, ``messagebox`` | Python-Standardbibliotheken zur Implementierung von UI & Systeminteraktionen                             |
-| Paketverwaltung          | pip/venv                                                                     | Verwalten externer Abhängigkeiten & virtuelle Entwicklungsumgebung                                       |
+| **Kategorie**            | **Technologie/Tool**                                                         | Begründung                                                                                                                                            |
+|--------------------------|------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Sprache                  | Python 3.11                                                                  | Modern & persönliche Erfahrung                                                                                                                        | 
+| Buildsystem              | -                                                                            | kein Buildsystem notwendig                                                                                                                            |
+| Versionskontrolle        | Git & GitHub                                                                 | Standard                                                                                                                                              |
+| IDE                      | PyCharm                                                                      | Standard Python-IDE, kompatibel für Doku in .md                                                                                                       |
+| Ausgabe/GUI              | Tkinter (Standardbibliothek)                                                 | Plattformunabhängiges GUI-Toolkit, bereits in Python integriert                                                                                       |
+| Dokumentation            | Markdown                                                                     | Standard, IDE-Integration                                                                                                                             |
+| Codeanalyse              | flake8, pylint, mypy, Sonarqube                                              | Statische Codeanalyse für Syntax- und Stilprüfungen (``flake8``, ``pylint``) sowie Typprüfung (``mypy``) & ```SonarQube```zur statischen Code-Analyse |
+| Test-Framework           | pytest                                                                       | Python-Testframework für Unit- & Integrationstests                                                                                                    |
+| Frameworks, Bibliotheken | Tkinter für UI, ``winsound``, ``time``, ``patform``, ``ttk``, ``messagebox`` | Python-Standardbibliotheken zur Implementierung von UI & Systeminteraktionen                                                                          |
+| Paketverwaltung          | pip/venv                                                                     | Verwalten externer Abhängigkeiten & virtuelle Entwicklungsumgebung                                                                                    |

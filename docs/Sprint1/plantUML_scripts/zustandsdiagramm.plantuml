@@ -9,28 +9,22 @@ Strahlung_aktiv --> Strahlung_beendet : Max. Dauer erreicht
 
 Strahlung_beendet --> Bereit : System zurückgesetzt
 
-state Bereit {
-  note right
-    UI zeigt LED rot,
-    Fortschrittsbalken = 0,
-    Strahlung inaktiv
-  end note
-}
+note right of Bereit
+  UI zeigt LED rot
+  Fortschrittsbalken = 0
+  Strahlung inaktiv
+end note
 
-state Strahlung_aktiv {
-  note right
-    LED = grün,
-    Fortschritt wird aktualisiert,
-    Dauer läuft
-  end note
-}
+note right of Strahlung_aktiv
+  LED = grün
+  Fortschritt wird aktualisiert
+  Dauer läuft
+end note
 
-state Strahlung_beendet {
-  note right
-    Nachricht anzeigen,
-    Logeintrag,
-    LED = rot
-  end note
-}
+note right of Strahlung_beendet
+  Nachricht anzeigen
+  Logeintrag
+  LED = rot
+end note
 
 @enduml
