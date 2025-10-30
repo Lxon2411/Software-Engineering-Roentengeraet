@@ -28,11 +28,11 @@ Architekturtyp: **Schichten-/Komponentenarchitektur** mit Trennung von Logik, St
 | Systemschicht   | Req. 3.1                                                   |
 
 ## Verantwortlichkeiten der Komponenten
-| **Komponente**  | **Rolle**                        | Verantwortlichkeiten                                                                                                                                                        |
-|-----------------|----------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GUI             | Präsentationsschicht             | - Anzeige von Zuständen <br/> - Interaktion mit dem Benutzer <br/> - Übergibt Benutzerbefehle an Steuerungslogik                                                            |
-| Steuerungslogik | Anwendungsschicht/Business-Logik | - Steuerung des Strahlungsprozesses <br/> - Überprüfung der Eingaben (Validierung der Strahlungsdauer)<br/> - Kommunikation zwischen GUI und Systemschicht                  |
-| Systemschicht   | technische Integrationsschicht   | - Zugriff auf Betriebssystemsfunktionen (z.B. Tonwiedergabe via ``winsound``, Zeitsteuerung via ``after()``)<br/> - Ausgabe von Systemdialogen (z.B. ``messagebox.showinfo`` |
+| **Komponente**  | **Rolle**                        | Verantwortlichkeiten                                                                                                                                                                                    |
+|-----------------|----------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| GUI             | Präsentationsschicht             | - Anzeige von Zuständen <br/> - Interaktion mit dem Benutzer <br/> - Übergibt Benutzerbefehle an Steuerungslogik                                                                                        |
+| Steuerungslogik | Anwendungsschicht/Business-Logik | - Steuerung des Strahlungsprozesses <br/> - Überprüfung der Eingaben (Validierung der Strahlungsdauer)<br/> - Kommunikation zwischen GUI und Systemschicht                                              |
+| Systemschicht   | technische Integrationsschicht   | -Simulation der Hardware<br/> - Zugriff auf OS-/Hardwarefunktionen (z.B. Tonwiedergabe via ``winsound``, Zeitsteuerung via ``after()``)<br/> - Ausgabe von Systemdialogen (z.B. ``messagebox.showinfo`` |
 
 ## Schnittstellen zwischen den Komponenten
 | **von**         | **an**          | **Beschreibung**                                                                    | Schnittstellen |
@@ -56,7 +56,7 @@ Architekturtyp: **Schichten-/Komponentenarchitektur** mit Trennung von Logik, St
 | IDE                      | PyCharm                                                                      | Standard Python-IDE, kompatibel für Doku in .md                                                          |
 | Ausgabe/GUI              | Tkinter (Standardbibliothek)                                                 | Plattformunabhängiges GUI-Toolkit, bereits in Python integriert                                          |
 | Dokumentation            | Markdown                                                                     | Standard, IDE-Integration                                                                                |
-| Codeanalyse              | flake8, pylint, mypy                                                         | Statische Codeanalyse für Syntax- und Stilprüfungen (``flake8``, ``pylint``) sowie Typprüfung (``mypy``) |
+| Codeanalyse              | flake8, pylint, mypy, Sonarqube                                              | Statische Codeanalyse für Syntax- und Stilprüfungen (``flake8``, ``pylint``) sowie Typprüfung (``mypy``) |
 | Test-Framework           | pytest                                                                       | Python-Testframework für Unit- & Integrationstests                                                       |
 | Frameworks, Bibliotheken | Tkinter für UI, ``winsound``, ``time``, ``patform``, ``ttk``, ``messagebox`` | Python-Standardbibliotheken zur Implementierung von UI & Systeminteraktionen                             |
 | Paketverwaltung          | pip/venv                                                                     | Verwalten externer Abhängigkeiten & virtuelle Entwicklungsumgebung                                       |

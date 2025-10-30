@@ -1,0 +1,39 @@
+@startuml
+title Sequenzdiagramm
+
+actor User
+participant "RadiationUI" as UI
+participant "RadiationController" as Ctrl
+participant "StatusLED" as LED
+participant "SystemTimer" as Timer
+
+User -> UI : Klick auf "Strahlung starten"
+UI -> Ctrl : toggle_radiation()
+
+alt Strahlung inaktiv
+    Ctrl -> Ctrl : start_radiation()
+    Ctrl -> UI : max_duration = Eingabe prüfen
+    Ctrl -> LED : set_on()
+    Ctrl -> UI : Button-Text ändern\n"Strahlung stoppen"
+    Ctrl -> UI : log_message("Strahlung gestartet")
+    Ctrl -> Timer : after(100ms, update_timer)
+else Strahlung aktiv
+    Ctrl -> Ctrl : stop_radiation()
+    Ctrl -> LED : set_off()
+    Ctrl -> UI : Button-Text zurücksetzen\n"Strahlung starten"
+    Ctrl -> UI : log_message("Strahlung gestoppt")
+end
+
+loop Alle 100 ms während Strahlung aktiv
+    Timer -> Ctrl : update_timer()
+    Ctrl -> UI : Fortschrittsanzeige aktualisieren
+    Ctrl -> UI : Zeitlabel aktualisieren
+    Ctrl -> Ctrl : prüfen (elapsed >= max_duration?)
+    alt Max Dauer erreicht
+        Ctrl -> Ctrl : stop_radiation(user_stopped=False)
+        Ctrl -> LED : set_off()
+        Ctrl -> UI : Warnmeldung anzeigen
+    end
+end
+
+@enduml

@@ -1,0 +1,47 @@
+@startuml
+title Klassendiagramm
+
+package "GUI-Schicht" {
+    class RadiationUI {
+        - root: tk.Tk
+        - duration_entry: tk.Entry
+        - start_stop_button: tk.Button
+        - progress: ttk.Progressbar
+        - status_led: StatusLED
+        - controller: RadiationController
+        --
+        + build_ui()
+        + log_message(msg)
+        + __init__(root)
+    }
+
+    class StatusLED {
+        - oval
+        - bg_color: str
+        --
+        + set_on()
+        + set_off()
+    }
+}
+
+package "Steuerungslogik" {
+    class RadiationController {
+        - ui: RadiationUI
+        - is_radiating: bool
+        - elapsed_time: float
+        - max_duration: int
+        - start_time: float
+        - update_interval: int
+        --
+        + start_radiation()
+        + stop_radiation(user_stopped: bool)
+        + toggle_radiation()
+        + update_timer()
+    }
+}
+
+RadiationUI --> RadiationController : verwendet >
+RadiationUI *-- StatusLED : enthält >
+RadiationController --> RadiationUI : steuert über >
+
+@enduml

@@ -1,0 +1,33 @@
+@startuml
+title Komponentendiagramm – Röntgengerät Steuerung (mit Schnittstellen und Methoden)
+
+' === Komponenten / Schichten ===
+component "GUI-Schicht" as GUI
+component "Steuerungslogik-Schicht" as Logic
+component "Systemschicht" as System
+
+interface IStrahlungssteuerung {
+    startRadiation(dauer)
+    stopRadiation()
+    getStatus()
+}
+
+interface ISystemZugriff {
+    aktiviereSignalton(frequenz, dauer)
+    leseSysteminfo()
+}
+
+interface IBenutzeroberfläche {
+    zeigeStatus(aktiv)
+    logNachricht(text)
+}
+
+GUI -u-|> IStrahlungssteuerung : nutzt
+Logic -u-|> ISystemZugriff : nutzt
+Logic -d-|> IBenutzeroberfläche : ruft auf
+
+GUI --> Logic : IStrahlungssteuerung
+Logic --> System : ISystemZugriff
+Logic --> GUI : IBenutzeroberfläche
+
+@enduml

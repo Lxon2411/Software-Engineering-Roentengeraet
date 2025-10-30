@@ -1,0 +1,531 @@
+Index: src/ui.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/ui.py b/src/ui.py
+--- a/src/ui.py	(revision b1e4c5bf148bb6b3f42f90b6063076fd1a937923)
++++ b/src/ui.py	(date 1761476133215)
+@@ -1,0 +1,73 @@
++import tkinter as tk
++from tkinter import ttk
++from status_led import StatusLED
++from controller import RadiationController
++from config import MAX_DURATION
++
++class RadiationUI:
++    def __init__(self, root):
++        self.root = root
++        self.is_dark_mode = False
++
++        self.root.title("💡 Röntgengerät Steuerung")
++        self.root.geometry("500x550")
++
++        self.build_ui()
++        self.controller = RadiationController(self)
++        self.start_stop_button.config(command=self.controller.toggle_radiation)
++
++    def build_ui(self):
++        title = tk.Label(self.root, text="Röntgengerät Steuerung", font=("Helvetica", 18, "bold"))
++        title.pack(pady=10)
++
++        # Einstellungen
++        input_frame = tk.LabelFrame(self.root, text="Einstellungen", font=("Helvetica", 10, "bold"))
++        input_frame.pack(padx=20, pady=10, fill="x")
++
++        tk.Label(input_frame, text=f"Maximale Strahlungsdauer (1–{MAX_DURATION} Sekunden):").pack(anchor="w", padx=10, pady=5)
++
++        self.duration_entry = tk.Entry(input_frame, font=("Helvetica", 12), justify="center")
++        self.duration_entry.pack(padx=10, pady=5, fill="x")
++        self.duration_entry.insert(0, "10")
++
++        # Buttons
++        self.start_stop_button = tk.Button(self.root, text="▶ Strahlung starten",
++                                           font=("Helvetica", 12, "bold"),
++                                           bg="#4caf50", fg="white", relief="flat")
++        self.start_stop_button.pack(pady=10, ipadx=10, ipady=5)
++
++        # Timer Label
++        self.timer_label = tk.Label(self.root, text="Strahlungsdauer: 0.0 s", font=("Helvetica", 12))
++        self.timer_label.pack(pady=5)
++
++        # Fortschrittsbalken
++        style = ttk.Style()
++        style.theme_use("clam")
++        style.configure("green.Horizontal.TProgressbar", foreground="#4caf50", background="#4caf50", thickness=20)
++
++        self.progress = ttk.Progressbar(self.root, style="green.Horizontal.TProgressbar",
++                                        orient="horizontal", length=400, mode="determinate")
++        self.progress.pack(pady=10)
++
++        # Status-LED
++        status_frame = tk.LabelFrame(self.root, text="Status", font=("Helvetica", 10, "bold"))
++        status_frame.pack(pady=10, padx=20, fill="x")
++
++        inner = tk.Frame(status_frame)
++        inner.pack(pady=5)
++        tk.Label(inner, text="Strahlung:", font=("Helvetica", 11)).pack(side=tk.LEFT, padx=5)
++        self.status_led = StatusLED(inner)
++        self.status_led.pack(side=tk.LEFT)
++
++        # Logfeld
++        log_frame = tk.LabelFrame(self.root, text="Protokoll")
++        log_frame.pack(padx=20, pady=10, fill="both", expand=True)
++
++        self.log_text = tk.Text(log_frame, height=6, state="disabled", bg="#ffffff", wrap="word")
++        self.log_text.pack(fill="both", padx=10, pady=5)
++
++    def log_message(self, message):
++        self.log_text.configure(state="normal")
++        self.log_text.insert(tk.END, f"{message}\n")
++        self.log_text.see(tk.END)
++        self.log_text.configure(state="disabled")
+\ No newline at end of file
+Index: src/status_led.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/status_led.py b/src/status_led.py
+--- a/src/status_led.py	(revision b1e4c5bf148bb6b3f42f90b6063076fd1a937923)
++++ b/src/status_led.py	(date 1761237025120)
+@@ -1,0 +1,12 @@
++import tkinter as tk
++
++class StatusLED(tk.Canvas):
++    def __init__(self, master, diameter=20, bg_color="#f0f0f0"):
++        super().__init__(master, width=diameter, height=diameter, highlightthickness=0, bg=bg_color)
++        self.oval = self.create_oval(2, 2, diameter - 2, diameter - 2, fill="red", outline="#ccc")
++
++    def set_on(self):
++        self.itemconfig(self.oval, fill="green")
++
++    def set_off(self):
++        self.itemconfig(self.oval, fill="red")
+\ No newline at end of file
+Index: src/config.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/config.py b/src/config.py
+--- a/src/config.py	(revision b1e4c5bf148bb6b3f42f90b6063076fd1a937923)
++++ b/src/config.py	(date 1761237047356)
+@@ -1,0 +1,1 @@
++MAX_DURATION = 120  # Maximal erlaubte Dauer in Sekunden
+\ No newline at end of file
+Index: src/main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import tkinter as tk\r\nfrom tkinter import ttk, messagebox\r\nimport time\r\nimport platform\r\n\r\nif platform.system() == \"Windows\":\r\n    import winsound\r\n\r\nMAX_DURATION = 120  # Maximal erlaubte Dauer in Sekunden\r\n\r\n\r\nclass StatusLED(tk.Canvas):\r\n    def __init__(self, master, diameter=20, bg_color=\"#f0f0f0\"):\r\n        super().__init__(master, width=diameter, height=diameter, highlightthickness=0, bg=bg_color)\r\n        self.oval = self.create_oval(2, 2, diameter-2, diameter-2, fill=\"red\", outline=\"#ccc\")\r\n\r\n    def set_on(self):\r\n        self.itemconfig(self.oval, fill=\"green\")\r\n\r\n    def set_off(self):\r\n        self.itemconfig(self.oval, fill=\"red\")\r\n\r\n\r\nclass RadiationController:\r\n    def __init__(self, ui):\r\n        self.ui = ui\r\n        self.is_radiating = False\r\n        self.elapsed_time = 0\r\n        self.max_duration = 0\r\n        self.update_interval = 100\r\n        self.start_time = None\r\n\r\n    def start_radiation(self):\r\n        try:\r\n            self.max_duration = int(self.ui.duration_entry.get())\r\n            if not (0 < self.max_duration <= MAX_DURATION):\r\n                raise ValueError\r\n        except ValueError:\r\n            messagebox.showerror(\"Fehler\", f\"Bitte eine Zahl zwischen 1 und {MAX_DURATION} eingeben.\")\r\n            return\r\n\r\n        if not self.is_radiating:\r\n            self.is_radiating = True\r\n            self.elapsed_time = 0\r\n            self.start_time = time.time()\r\n            self.ui.status_led.set_on()\r\n            self.ui.start_stop_button.config(text=\"\uD83D\uDED1 Strahlung stoppen\", bg=\"#cc3333\")\r\n            self.ui.log_message(f\"✅ Strahlung gestartet ({self.max_duration}s)\")\r\n            self.update_timer()\r\n\r\n    def stop_radiation(self, user_stopped=True):\r\n        if self.is_radiating:\r\n            self.is_radiating = False\r\n            self.ui.status_led.set_off()\r\n            self.ui.start_stop_button.config(text=\"▶ Strahlung starten\", bg=\"#4caf50\")\r\n            self.ui.progress['value'] = 0\r\n            self.ui.timer_label.config(text=\"Strahlungsdauer: 0.0 s\")\r\n            actual_duration = time.time() - self.start_time if self.start_time else self.elapsed_time\r\n            msg = f\"⏹\uFE0F Strahlung gestoppt nach {actual_duration:.1f}s\"\r\n            self.ui.log_message(msg)\r\n            if user_stopped:\r\n                messagebox.showinfo(\"Strahlung beendet\", msg)\r\n\r\n    def toggle_radiation(self):\r\n        if self.is_radiating:\r\n            self.stop_radiation(user_stopped=True)\r\n        else:\r\n            self.start_radiation()\r\n\r\n    def update_timer(self):\r\n        if self.is_radiating:\r\n            self.elapsed_time += self.update_interval / 1000\r\n            self.ui.timer_label.config(text=f\"Strahlungsdauer: {self.elapsed_time:.1f} s\")\r\n\r\n            progress_percent = (self.elapsed_time / self.max_duration) * 100\r\n            self.ui.progress['value'] = progress_percent\r\n\r\n            if self.elapsed_time >= self.max_duration:\r\n                self.stop_radiation(user_stopped=False)\r\n                if platform.system() == \"Windows\":\r\n                    winsound.Beep(1000, 500)\r\n                messagebox.showwarning(\"Warnung\", \"⚠\uFE0F Maximale Strahlungsdauer erreicht!\")\r\n                return\r\n\r\n            self.ui.root.after(self.update_interval, self.update_timer)\r\n\r\n\r\nclass RadiationUI:\r\n    def __init__(self, root):\r\n        self.root = root\r\n        self.is_dark_mode = False\r\n\r\n        self.root.title(\"\uD83D\uDCA1 Röntgengerät Steuerung\")\r\n        self.root.geometry(\"500x550\")\r\n\r\n        self.build_ui()\r\n        self.controller = RadiationController(self)\r\n        self.start_stop_button.config(command=self.controller.toggle_radiation)\r\n\r\n    def build_ui(self):\r\n        title = tk.Label(self.root, text=\"Röntgengerät Steuerung\", font=(\"Helvetica\", 18, \"bold\"))\r\n        title.pack(pady=10)\r\n\r\n        # Einstellungen\r\n        input_frame = tk.LabelFrame(self.root, text=\"Einstellungen\", font=(\"Helvetica\", 10, \"bold\"))\r\n        input_frame.pack(padx=20, pady=10, fill=\"x\")\r\n\r\n        tk.Label(input_frame, text=f\"Maximale Strahlungsdauer (1–{MAX_DURATION} Sekunden):\").pack(anchor=\"w\", padx=10, pady=5)\r\n\r\n        self.duration_entry = tk.Entry(input_frame, font=(\"Helvetica\", 12), justify=\"center\")\r\n        self.duration_entry.pack(padx=10, pady=5, fill=\"x\")\r\n        self.duration_entry.insert(0, \"10\")\r\n\r\n        # Buttons\r\n        self.start_stop_button = tk.Button(self.root, text=\"▶ Strahlung starten\",\r\n                                           font=(\"Helvetica\", 12, \"bold\"),\r\n                                           bg=\"#4caf50\", fg=\"white\", relief=\"flat\")\r\n        self.start_stop_button.pack(pady=10, ipadx=10, ipady=5)\r\n\r\n        # Timer Label\r\n        self.timer_label = tk.Label(self.root, text=\"Strahlungsdauer: 0.0 s\", font=(\"Helvetica\", 12))\r\n        self.timer_label.pack(pady=5)\r\n\r\n        # Fortschrittsbalken\r\n        style = ttk.Style()\r\n        style.theme_use(\"clam\")\r\n        style.configure(\"green.Horizontal.TProgressbar\", foreground=\"#4caf50\", background=\"#4caf50\", thickness=20)\r\n\r\n        self.progress = ttk.Progressbar(self.root, style=\"green.Horizontal.TProgressbar\",\r\n                                        orient=\"horizontal\", length=400, mode=\"determinate\")\r\n        self.progress.pack(pady=10)\r\n\r\n        # Status-LED\r\n        status_frame = tk.LabelFrame(self.root, text=\"Status\", font=(\"Helvetica\", 10, \"bold\"))\r\n        status_frame.pack(pady=10, padx=20, fill=\"x\")\r\n\r\n        inner = tk.Frame(status_frame)\r\n        inner.pack(pady=5)\r\n        tk.Label(inner, text=\"Strahlung:\", font=(\"Helvetica\", 11)).pack(side=tk.LEFT, padx=5)\r\n        self.status_led = StatusLED(inner)\r\n        self.status_led.pack(side=tk.LEFT)\r\n\r\n        # Logfeld\r\n        log_frame = tk.LabelFrame(self.root, text=\"Protokoll\")\r\n        log_frame.pack(padx=20, pady=10, fill=\"both\", expand=True)\r\n\r\n        self.log_text = tk.Text(log_frame, height=6, state=\"disabled\", bg=\"#ffffff\", wrap=\"word\")\r\n        self.log_text.pack(fill=\"both\", padx=10, pady=5)\r\n\r\n\r\n    def log_message(self, message):\r\n        self.log_text.configure(state=\"normal\")\r\n        self.log_text.insert(tk.END, f\"{message}\\n\")\r\n        self.log_text.see(tk.END)\r\n        self.log_text.configure(state=\"disabled\")\r\n\r\ndef main():\r\n    root = tk.Tk()\r\n    app = RadiationUI(root)\r\n    root.mainloop()\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    main()\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main.py b/src/main.py
+--- a/src/main.py	(revision b1e4c5bf148bb6b3f42f90b6063076fd1a937923)
++++ b/src/main.py	(date 1761237003370)
+@@ -1,164 +1,10 @@
+ import tkinter as tk
+-from tkinter import ttk, messagebox
+-import time
+-import platform
+-
+-if platform.system() == "Windows":
+-    import winsound
+-
+-MAX_DURATION = 120  # Maximal erlaubte Dauer in Sekunden
+-
+-
+-class StatusLED(tk.Canvas):
+-    def __init__(self, master, diameter=20, bg_color="#f0f0f0"):
+-        super().__init__(master, width=diameter, height=diameter, highlightthickness=0, bg=bg_color)
+-        self.oval = self.create_oval(2, 2, diameter-2, diameter-2, fill="red", outline="#ccc")
+-
+-    def set_on(self):
+-        self.itemconfig(self.oval, fill="green")
+-
+-    def set_off(self):
+-        self.itemconfig(self.oval, fill="red")
+-
+-
+-class RadiationController:
+-    def __init__(self, ui):
+-        self.ui = ui
+-        self.is_radiating = False
+-        self.elapsed_time = 0
+-        self.max_duration = 0
+-        self.update_interval = 100
+-        self.start_time = None
+-
+-    def start_radiation(self):
+-        try:
+-            self.max_duration = int(self.ui.duration_entry.get())
+-            if not (0 < self.max_duration <= MAX_DURATION):
+-                raise ValueError
+-        except ValueError:
+-            messagebox.showerror("Fehler", f"Bitte eine Zahl zwischen 1 und {MAX_DURATION} eingeben.")
+-            return
+-
+-        if not self.is_radiating:
+-            self.is_radiating = True
+-            self.elapsed_time = 0
+-            self.start_time = time.time()
+-            self.ui.status_led.set_on()
+-            self.ui.start_stop_button.config(text="🛑 Strahlung stoppen", bg="#cc3333")
+-            self.ui.log_message(f"✅ Strahlung gestartet ({self.max_duration}s)")
+-            self.update_timer()
+-
+-    def stop_radiation(self, user_stopped=True):
+-        if self.is_radiating:
+-            self.is_radiating = False
+-            self.ui.status_led.set_off()
+-            self.ui.start_stop_button.config(text="▶ Strahlung starten", bg="#4caf50")
+-            self.ui.progress['value'] = 0
+-            self.ui.timer_label.config(text="Strahlungsdauer: 0.0 s")
+-            actual_duration = time.time() - self.start_time if self.start_time else self.elapsed_time
+-            msg = f"⏹️ Strahlung gestoppt nach {actual_duration:.1f}s"
+-            self.ui.log_message(msg)
+-            if user_stopped:
+-                messagebox.showinfo("Strahlung beendet", msg)
+-
+-    def toggle_radiation(self):
+-        if self.is_radiating:
+-            self.stop_radiation(user_stopped=True)
+-        else:
+-            self.start_radiation()
+-
+-    def update_timer(self):
+-        if self.is_radiating:
+-            self.elapsed_time += self.update_interval / 1000
+-            self.ui.timer_label.config(text=f"Strahlungsdauer: {self.elapsed_time:.1f} s")
+-
+-            progress_percent = (self.elapsed_time / self.max_duration) * 100
+-            self.ui.progress['value'] = progress_percent
+-
+-            if self.elapsed_time >= self.max_duration:
+-                self.stop_radiation(user_stopped=False)
+-                if platform.system() == "Windows":
+-                    winsound.Beep(1000, 500)
+-                messagebox.showwarning("Warnung", "⚠️ Maximale Strahlungsdauer erreicht!")
+-                return
+-
+-            self.ui.root.after(self.update_interval, self.update_timer)
+-
+-
+-class RadiationUI:
+-    def __init__(self, root):
+-        self.root = root
+-        self.is_dark_mode = False
+-
+-        self.root.title("💡 Röntgengerät Steuerung")
+-        self.root.geometry("500x550")
+-
+-        self.build_ui()
+-        self.controller = RadiationController(self)
+-        self.start_stop_button.config(command=self.controller.toggle_radiation)
+-
+-    def build_ui(self):
+-        title = tk.Label(self.root, text="Röntgengerät Steuerung", font=("Helvetica", 18, "bold"))
+-        title.pack(pady=10)
+-
+-        # Einstellungen
+-        input_frame = tk.LabelFrame(self.root, text="Einstellungen", font=("Helvetica", 10, "bold"))
+-        input_frame.pack(padx=20, pady=10, fill="x")
+-
+-        tk.Label(input_frame, text=f"Maximale Strahlungsdauer (1–{MAX_DURATION} Sekunden):").pack(anchor="w", padx=10, pady=5)
+-
+-        self.duration_entry = tk.Entry(input_frame, font=("Helvetica", 12), justify="center")
+-        self.duration_entry.pack(padx=10, pady=5, fill="x")
+-        self.duration_entry.insert(0, "10")
+-
+-        # Buttons
+-        self.start_stop_button = tk.Button(self.root, text="▶ Strahlung starten",
+-                                           font=("Helvetica", 12, "bold"),
+-                                           bg="#4caf50", fg="white", relief="flat")
+-        self.start_stop_button.pack(pady=10, ipadx=10, ipady=5)
+-
+-        # Timer Label
+-        self.timer_label = tk.Label(self.root, text="Strahlungsdauer: 0.0 s", font=("Helvetica", 12))
+-        self.timer_label.pack(pady=5)
+-
+-        # Fortschrittsbalken
+-        style = ttk.Style()
+-        style.theme_use("clam")
+-        style.configure("green.Horizontal.TProgressbar", foreground="#4caf50", background="#4caf50", thickness=20)
+-
+-        self.progress = ttk.Progressbar(self.root, style="green.Horizontal.TProgressbar",
+-                                        orient="horizontal", length=400, mode="determinate")
+-        self.progress.pack(pady=10)
+-
+-        # Status-LED
+-        status_frame = tk.LabelFrame(self.root, text="Status", font=("Helvetica", 10, "bold"))
+-        status_frame.pack(pady=10, padx=20, fill="x")
+-
+-        inner = tk.Frame(status_frame)
+-        inner.pack(pady=5)
+-        tk.Label(inner, text="Strahlung:", font=("Helvetica", 11)).pack(side=tk.LEFT, padx=5)
+-        self.status_led = StatusLED(inner)
+-        self.status_led.pack(side=tk.LEFT)
+-
+-        # Logfeld
+-        log_frame = tk.LabelFrame(self.root, text="Protokoll")
+-        log_frame.pack(padx=20, pady=10, fill="both", expand=True)
+-
+-        self.log_text = tk.Text(log_frame, height=6, state="disabled", bg="#ffffff", wrap="word")
+-        self.log_text.pack(fill="both", padx=10, pady=5)
+-
+-
+-    def log_message(self, message):
+-        self.log_text.configure(state="normal")
+-        self.log_text.insert(tk.END, f"{message}\n")
+-        self.log_text.see(tk.END)
+-        self.log_text.configure(state="disabled")
++from ui import RadiationUI
+ 
+ def main():
+     root = tk.Tk()
+     app = RadiationUI(root)
+     root.mainloop()
+ 
+-
+ if __name__ == "__main__":
+-    main()
++    main()
+\ No newline at end of file
+Index: src/controller.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/controller.py b/src/controller.py
+--- a/src/controller.py	(revision b1e4c5bf148bb6b3f42f90b6063076fd1a937923)
++++ b/src/controller.py	(date 1761236986479)
+@@ -1,0 +1,71 @@
++import time
++import platform
++from tkinter import messagebox
++from config import MAX_DURATION
++
++if platform.system() == "Windows":
++    import winsound
++
++
++class RadiationController:
++    def __init__(self, ui):
++        self.ui = ui
++        self.is_radiating = False
++        self.elapsed_time = 0
++        self.max_duration = 0
++        self.update_interval = 100
++        self.start_time = None
++
++    def start_radiation(self):
++        try:
++            self.max_duration = int(self.ui.duration_entry.get())
++            if not (0 < self.max_duration <= MAX_DURATION):
++                raise ValueError
++        except ValueError:
++            messagebox.showerror("Fehler", f"Bitte eine Zahl zwischen 1 und {MAX_DURATION} eingeben.")
++            return
++
++        if not self.is_radiating:
++            self.is_radiating = True
++            self.elapsed_time = 0
++            self.start_time = time.time()
++            self.ui.status_led.set_on()
++            self.ui.start_stop_button.config(text="🛑 Strahlung stoppen", bg="#cc3333")
++            self.ui.log_message(f"✅ Strahlung gestartet ({self.max_duration}s)")
++            self.update_timer()
++
++    def stop_radiation(self, user_stopped=True):
++        if self.is_radiating:
++            self.is_radiating = False
++            self.ui.status_led.set_off()
++            self.ui.start_stop_button.config(text="▶ Strahlung starten", bg="#4caf50")
++            self.ui.progress['value'] = 0
++            self.ui.timer_label.config(text="Strahlungsdauer: 0.0 s")
++            actual_duration = time.time() - self.start_time if self.start_time else self.elapsed_time
++            msg = f"⏹️ Strahlung gestoppt nach {actual_duration:.1f}s"
++            self.ui.log_message(msg)
++            if user_stopped:
++                messagebox.showinfo("Strahlung beendet", msg)
++
++    def toggle_radiation(self):
++        if self.is_radiating:
++            self.stop_radiation(user_stopped=True)
++        else:
++            self.start_radiation()
++
++    def update_timer(self):
++        if self.is_radiating:
++            self.elapsed_time += self.update_interval / 1000
++            self.ui.timer_label.config(text=f"Strahlungsdauer: {self.elapsed_time:.1f} s")
++
++            progress_percent = (self.elapsed_time / self.max_duration) * 100
++            self.ui.progress['value'] = progress_percent
++
++            if self.elapsed_time >= self.max_duration:
++                self.stop_radiation(user_stopped=False)
++                if platform.system() == "Windows":
++                    winsound.Beep(1000, 500)
++                messagebox.showwarning("Warnung", "⚠️ Maximale Strahlungsdauer erreicht!")
++                return
++
++            self.ui.root.after(self.update_interval, self.update_timer)
+\ No newline at end of file
+Index: .idea/Software-Engineering-Roentengeraet.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"PYTHON_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\">\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <excludeFolder url=\"file://$MODULE_DIR$/venv\" />\r\n    </content>\r\n    <orderEntry type=\"inheritedJdk\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n  </component>\r\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/Software-Engineering-Roentengeraet.iml b/.idea/Software-Engineering-Roentengeraet.iml
+--- a/.idea/Software-Engineering-Roentengeraet.iml	(revision b1e4c5bf148bb6b3f42f90b6063076fd1a937923)
++++ b/.idea/Software-Engineering-Roentengeraet.iml	(date 1760942187007)
+@@ -2,9 +2,10 @@
+ <module type="PYTHON_MODULE" version="4">
+   <component name="NewModuleRootManager">
+     <content url="file://$MODULE_DIR$">
++      <excludeFolder url="file://$MODULE_DIR$/.venv" />
+       <excludeFolder url="file://$MODULE_DIR$/venv" />
+     </content>
+-    <orderEntry type="inheritedJdk" />
++    <orderEntry type="jdk" jdkName="Python 3.13 (Software-Engineering-Roentengeraet)" jdkType="Python SDK" />
+     <orderEntry type="sourceFolder" forTests="false" />
+   </component>
+ </module>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectRootManager\" version=\"2\" project-jdk-name=\"Python 3.11 (Software-Engineering-Roentengeraet)\" project-jdk-type=\"Python SDK\" />\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision b1e4c5bf148bb6b3f42f90b6063076fd1a937923)
++++ b/.idea/misc.xml	(date 1761236796517)
+@@ -1,4 +1,7 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (Software-Engineering-Roentengeraet)" project-jdk-type="Python SDK" />
++  <component name="Black">
++    <option name="sdkName" value="Python 3.13 (Software-Engineering-Roentengeraet)" />
++  </component>
++  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.13 (Software-Engineering-Roentengeraet)" project-jdk-type="Python SDK" />
+ </project>
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"30fd40a8-e222-44c5-81ef-5934050a56c3\" name=\"Changes\" comment=\"\">\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/Software-Engineering-Roentengeraet.iml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/misc.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/modules.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/vcs.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/build/main/Analysis-00.toc\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/build/main/EXE-00.toc\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/build/main/PKG-00.toc\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/build/main/PYZ-00.pyz\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/build/main/PYZ-00.toc\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/build/main/base_library.zip\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/build/main/main.pkg\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/build/main/warn-main.txt\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/build/main/xref-main.html\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/dist/main.exe\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/src/main.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/test.txt\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/docs/Pflichtenheft.md\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/docs/Pflichtenheft.md\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/lib/test.txt\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/test.txt\" beforeDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Python Script\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"34BumuN5kwRNYPmWtAu4SdBInRZ\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"git-widget-placeholder\": \"main\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\Anwender\\Software-Engineering-Roentengeraet\\src\" />\r\n      <recent name=\"C:\\Users\\Anwender\\Software-Engineering-Roentengeraet\\\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"30fd40a8-e222-44c5-81ef-5934050a56c3\" name=\"Changes\" comment=\"\" />\r\n      <created>1760699448600</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1760699448600</updated>\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State>\r\n              <option name=\"FILTERS\">\r\n                <map>\r\n                  <entry key=\"branch\">\r\n                    <value>\r\n                      <list>\r\n                        <option value=\"origin/dev\" />\r\n                      </list>\r\n                    </value>\r\n                  </entry>\r\n                </map>\r\n              </option>\r\n            </State>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision b1e4c5bf148bb6b3f42f90b6063076fd1a937923)
++++ b/.idea/workspace.xml	(date 1761237157685)
+@@ -5,27 +5,14 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="30fd40a8-e222-44c5-81ef-5934050a56c3" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/.idea/Software-Engineering-Roentengeraet.iml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/build/main/Analysis-00.toc" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/build/main/EXE-00.toc" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/build/main/PKG-00.toc" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/build/main/PYZ-00.pyz" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/build/main/PYZ-00.toc" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/build/main/base_library.zip" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/build/main/main.pkg" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/build/main/warn-main.txt" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/build/main/xref-main.html" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/dist/main.exe" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/test.txt" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/docs/Pflichtenheft.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Pflichtenheft.md" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/lib/test.txt" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/test.txt" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/Software-Engineering-Roentengeraet.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Software-Engineering-Roentengeraet.iml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/status_led.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/status_led.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui.py" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -45,22 +32,61 @@
+   <component name="MarkdownSettingsMigration">
+     <option name="stateVersion" value="1" />
+   </component>
++  <component name="ProjectColorInfo">{
++  &quot;associatedIndex&quot;: 1
++}</component>
+   <component name="ProjectId" id="34BumuN5kwRNYPmWtAu4SdBInRZ" />
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "git-widget-placeholder": "main"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;Python.main.executor&quot;: &quot;Run&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
++    &quot;last_opened_file_path&quot;: &quot;C:/Users/WUEHR_LE/Software-Engineering-Roentengeraet&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="MoveFile.RECENT_KEYS">
+       <recent name="C:\Users\Anwender\Software-Engineering-Roentengeraet\src" />
+       <recent name="C:\Users\Anwender\Software-Engineering-Roentengeraet\" />
+     </key>
++  </component>
++  <component name="RunManager">
++    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
++      <module name="Software-Engineering-Roentengeraet" />
++      <option name="ENV_FILES" value="" />
++      <option name="INTERPRETER_OPTIONS" value="" />
++      <option name="PARENT_ENVS" value="true" />
++      <envs>
++        <env name="PYTHONUNBUFFERED" value="1" />
++      </envs>
++      <option name="SDK_HOME" value="" />
++      <option name="SDK_NAME" value="Python 3.13 (PythonProject1)" />
++      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
++      <option name="IS_MODULE_SDK" value="false" />
++      <option name="ADD_CONTENT_ROOTS" value="true" />
++      <option name="ADD_SOURCE_ROOTS" value="true" />
++      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/main.py" />
++      <option name="PARAMETERS" value="" />
++      <option name="SHOW_COMMAND_LINE" value="false" />
++      <option name="EMULATE_TERMINAL" value="false" />
++      <option name="MODULE_MODE" value="false" />
++      <option name="REDIRECT_INPUT" value="false" />
++      <option name="INPUT_FILE" value="" />
++      <method v="2" />
++    </configuration>
++  </component>
++  <component name="SharedIndexes">
++    <attachedChunks>
++      <set>
++        <option value="bundled-python-sdk-fb887030ada0-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.21565.199" />
++      </set>
++    </attachedChunks>
+   </component>
+   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+   <component name="TaskManager">
