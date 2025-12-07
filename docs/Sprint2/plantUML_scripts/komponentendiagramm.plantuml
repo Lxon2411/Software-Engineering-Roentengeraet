@@ -1,0 +1,115 @@
+@startuml RadiationSimulation_Components
+
+!define COMPONENT_COLOR #E8F4F8
+!define INTERFACE_COLOR #FFF4E6
+!define CLASS_COLOR #F0F0F0
+
+skinparam componentBackgroundColor COMPONENT_COLOR
+skinparam componentBorderColor #333333
+skinparam interfaceBackgroundColor INTERFACE_COLOR
+skinparam interfaceBorderColor #333333
+skinparam classBackgroundColor CLASS_COLOR
+skinparam classBorderColor #333333
+
+title Komponentendiagramm - Röntgenstrahlung Simulation
+
+' ===== Schnittstellen =====
+interface IUserInteraction {
+    + startButtonPressed()
+    + stopButtonPressed()
+    + durationEntered(seconds: int)
+}
+
+interface ILogicControl {
+    + start(duration: int)
+    + stop()
+}
+
+interface ISystemAccess {
+    + getCurrentTime(): float
+    + sleep(seconds: float)
+    + playBeep(frequency: int, duration: int)
+}
+
+interface IUIUpdate {
+    + updateProgress(elapsed: float, duration: float)
+    + showFinishedMessage(duration: float)
+    + showAbortMessage(elapsed: float)
+    + resetUI()
+}
+
+interface IStatusIndicator {
+    + setActive()
+    + setInactive()
+}
+
+' ===== Komponenten =====
+
+component "GUI-Komponente" as GUI {
+    class RadiationUI {
+        - duration_entry: tk.Entry
+        - progress: ttk.Progressbar
+        - startButton: tk.Button
+        - status_led: StatusLED
+        ---
+        + start_radiation()
+        + stop_radiation()
+        + update_progress()
+        + show_finished_message()
+        + show_abort_message()
+        + reset_ui()
+    }
+
+    class StatusLED {
+        - status_canvas: tk.Canvas
+        - status_circle: int
+        ---
+        + set_active()
+        + set_inactive()
+    }
+}
+
+component "Steuerungslogik-Komponente" as Logic {
+    class RadiationController {
+        - running: bool
+        - aborted: bool
+        - thread: Thread
+        ---
+        + start(duration: int)
+        + stop()
+        - _run_radiation(duration: int)
+    }
+}
+
+component "System-Komponente" as System {
+    class SystemLayer {
+        ---
+        + getCurrentTime(): float
+        + sleep(seconds: float)
+        + playBeep(frequency: int, duration: int)
+    }
+}
+
+' ===== Beziehungen =====
+
+' Komponenten-Abhängigkeiten
+GUI -down-> Logic : nutzt >\nILogicControl
+Logic -down-> System : nutzt >\nISystemAccess
+Logic -up-> GUI : aktualisiert >\nIUIUpdate
+
+' Interne Komponenten
+GUI --> StatusLED : enthält
+
+' Schnittstellenrealisierung
+RadiationUI ..> IUserInteraction : implementiert
+RadiationUI ..> IUIUpdate : implementiert
+RadiationController ..> ILogicControl : implementiert
+StatusLED ..> IStatusIndicator : implementiert
+SystemLayer ..> ISystemAccess : implementiert
+
+' Abhängigkeiten innerhalb Komponenten
+RadiationUI --> RadiationController : referenziert
+RadiationUI --> StatusLED : verwendet
+RadiationController --> IUIUpdate : nutzt Callbacks
+
+@enduml

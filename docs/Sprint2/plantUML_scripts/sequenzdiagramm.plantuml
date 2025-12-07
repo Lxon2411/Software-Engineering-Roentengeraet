@@ -1,0 +1,139 @@
+@startuml RadiationSimulation_Sequence
+
+!define ARROW_COLOR #666666
+skinparam sequenceArrowColor ARROW_COLOR
+skinparam actorBackgroundColor #E8F4F8
+skinparam participantBackgroundColor #F0F0F0
+skinparam participantBorderColor #333333
+skinparam lifelineBackgroundColor #FFFFFF
+
+title Sequenzdiagramm - Röntgenstrahlung Simulation
+
+actor "Benutzer" as user
+participant "RadiationUI" as ui
+participant "RadiationController" as controller
+participant "SystemLayer" as system
+participant "StatusLED" as led
+participant "Thread" as thread
+
+== Phase 1: Initialisierung ==
+user -> ui: App starten
+activate ui
+ui -> led: __init__()
+activate led
+led --> ui: StatusLED erstellt
+deactivate led
+ui --> user: UI initialisiert
+deactivate ui
+
+== Phase 2: Benutzer gibt Dauer ein ==
+user -> ui: Dauer eingeben (z.B. 10 Sekunden)
+user -> ui: startButtonPressed()
+activate ui
+
+== Phase 3: Start der Strahlung ==
+ui -> ui: start_radiation()\n[Validierung: 1 <= dauer <= MAX]
+ui -> led: set_active()
+activate led
+led --> led: Circle fill = Grün
+deactivate led
+
+ui -> controller: start(duration=10)\nvia ILogicControl
+activate controller
+controller -> controller: running = True\naborted = False
+controller -> thread: starte Thread\n[daemon=True]
+activate thread
+
+controller --> ui: Rückgabe
+deactivate controller
+
+ui -> ui: Button: "Stop"\nBG: Rot
+ui --> user: UI aktualisiert
+deactivate ui
+
+== Phase 4: Strahlung läuft (Loop) ==
+thread -> thread: _run_radiation(duration=10)
+loop alle 20ms (while running)
+    thread -> system: getCurrentTime()
+    activate system
+    system --> thread: time.time()
+    deactivate system
+
+    thread -> thread: elapsed = time - start_time
+
+    alt elapsed < duration
+        thread -> ui: update_progress(elapsed, 10)\nvia IUIUpdate
+        activate ui
+        ui -> ui: progress["value"] = elapsed
+        ui -> ui: percent = (elapsed/10)*100
+        ui -> ui: Labels aktualisieren
+        ui -> ui: root.update_idletasks()
+        ui --> thread: done
+        deactivate ui
+    end
+
+    thread -> system: sleep(0.02)
+    activate system
+    system --> thread: sleep complete
+    deactivate system
+end
+
+== Phase 5a: Normaler Abschluss (ohne Abort) ==
+thread -> thread: elapsed >= duration
+thread -> thread: running = False
+thread -> system: playBeep(400, 600)\nvia ISystemAccess
+activate system
+system --> system: Winsound.Beep(400, 600)
+deactivate system
+
+thread -> ui: show_finished_message(10)\nvia IUIUpdate
+activate ui
+ui -> user: Info: "Erfolgreich nach 10 Sekunden"
+deactivate ui
+
+thread -> ui: reset_ui()\nvia IUIUpdate
+activate ui
+ui -> ui: Button: "Start" / BG: Grün
+ui -> ui: progress = 0
+ui -> ui: Entry löschen
+ui -> led: set_inactive()
+activate led
+led --> led: Circle fill = Rot
+deactivate led
+ui --> user: UI zurückgesetzt
+deactivate ui
+deactivate thread
+
+== Phase 5b: Abort durch Benutzer ==
+user -> ui: stopButtonPressed()
+activate ui
+ui -> controller: stop()\nvia ILogicControl
+activate controller
+controller -> controller: aborted = True\nrunning = False
+controller --> ui: done
+deactivate controller
+ui --> user: UI wartet
+deactivate ui
+
+thread -> thread: running = False\n(Loop bricht ab)
+thread -> system: playBeep(250, 300)\nvia ISystemAccess
+activate system
+system --> system: Winsound.Beep(250, 300)
+deactivate system
+
+thread -> ui: show_abort_message(elapsed)\nvia IUIUpdate
+activate ui
+ui -> user: Warning: "Abgebrochen nach X.X Sekunden"
+deactivate ui
+
+thread -> ui: reset_ui()\nvia IUIUpdate
+activate ui
+ui -> led: set_inactive()
+activate led
+led --> led: Circle fill = Rot
+deactivate led
+ui --> user: UI zurückgesetzt
+deactivate ui
+deactivate thread
+
+@enduml

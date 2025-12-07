@@ -1,0 +1,105 @@
+@startuml RadiationSimulation_Communication
+
+!define ARROW_COLOR #666666
+skinparam sequenceArrowColor ARROW_COLOR
+skinparam actorBackgroundColor #E8F4F8
+skinparam participantBackgroundColor #F0F0F0
+skinparam participantBorderColor #333333
+
+actor Benutzer as user
+participant "RadiationUI" as ui
+participant "RadiationController" as controller
+participant "StatusLED" as led
+participant "Thread" as thread
+
+== Initialisierung ==
+user -> ui: __init__(root, controller)
+ui -> led: __init__(root)
+activate led
+led --> ui: StatusLED-Objekt
+deactivate led
+
+== Start-Prozess ==
+user -> ui: Eingabe: Dauer\n(z.B. 10 Sekunden)
+user -> ui: Klick auf "Start"
+activate ui
+ui -> ui: start_radiation()
+ui -> controller: start(duration=10)
+activate controller
+controller -> controller: running = True\naborted = False
+controller -> thread: start() \n[daemon Thread]
+activate thread
+controller --> ui: Rückgabe
+deactivate controller
+ui -> ui: Button: "Stop"\nBG: Rot
+ui -> led: set_active()
+activate led
+led --> led: Circle fill: Grün
+deactivate led
+ui --> user: UI aktualisiert
+deactivate ui
+
+== Strahlung läuft ==
+thread -> thread: _run_radiation(duration=10)
+loop alle 20ms (while running)
+    thread -> thread: elapsed = time.time() - start
+    thread -> ui: update_progress(elapsed, duration)
+    activate ui
+    ui -> ui: progress["value"] = elapsed
+    ui -> ui: percent = (elapsed/duration)*100
+    ui -> ui: Label aktualisieren
+    ui -> ui: root.update_idletasks()
+    ui --> thread: Rückgabe
+    deactivate ui
+    thread -> thread: time.sleep(0.02)
+end
+
+== Stop-Prozess (Benutzer klickt "Stop") ==
+user -> ui: Klick auf "Stop"
+activate ui
+ui -> controller: stop()
+activate controller
+controller -> controller: aborted = True\nrunning = False
+controller --> ui: Rückgabe
+deactivate controller
+ui --> user: UI wartet auf Thread
+deactivate ui
+
+== Thread beendet sich ==
+thread -> thread: elapsed >= duration\noder running = False
+thread -> thread: running = False
+thread -> ui: show_abort_message(elapsed=5.2)
+activate ui
+ui -> ui: Winsound.Beep(250, 300)
+ui -> user: Warning: "Abgebrochen nach 5.2s"
+deactivate ui
+thread -> ui: reset_ui()
+activate ui
+ui -> ui: Button: "Start"\nBG: Grün
+ui -> ui: progress = 0
+ui -> ui: Entry löschen
+ui -> led: set_inactive()
+activate led
+led --> led: Circle fill: Rot
+deactivate led
+ui --> user: UI zurückgesetzt
+deactivate ui
+deactivate thread
+
+== Normaler Abschluss (ohne Abort) ==
+alt Strahlung vollständig
+    thread -> ui: show_finished_message(duration=10)
+    activate ui
+    ui -> ui: Winsound.Beep(400, 600)
+    ui -> user: Info: "Fertig nach 10 Sekunden"
+    deactivate ui
+    thread -> ui: reset_ui()
+    activate ui
+    ui -> led: set_inactive()
+    activate led
+    led --> led: Circle fill: Rot
+    deactivate led
+    deactivate ui
+end
+
+@enduml

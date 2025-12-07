@@ -1,4 +1,4 @@
-## Traceability-Matrix 
+## Traceability-Matrix Sprint 1
 | **Requirement-ID**        | **Komponente**                 | **Klasse(n)**                                 | **Schnittstelle(n)**                                                                       | **Testfall-ID(s)** |
 |---------------------------|--------------------------------|-----------------------------------------------|--------------------------------------------------------------------------------------------|--------------------|
 | 1.1 (funktional)          | GUI, Steuerungslogik           | ```Radiation UI```, ```RadiationController``` | ```start_radiation()```, ```stop_radiation()```, ```duration_entry```                      | M1                 |

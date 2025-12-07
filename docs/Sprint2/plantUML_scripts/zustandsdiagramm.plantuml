@@ -1,0 +1,108 @@
+@startuml RadiationSimulation_StateDiagram
+
+title Zustandsdiagramm - Röntgenstrahlung Simulation
+
+skinparam backgroundColor #FFFFFF
+skinparam stateBorderColor #333333
+skinparam stateBackgroundColor #F0F0F0
+skinparam stateArrowColor #666666
+
+' ===== Zustände der RadiationController =====
+
+[*] --> Idle
+
+state Idle {
+    [*] --> Ready
+    Ready: running = False
+    Ready: aborted = False
+}
+
+state Running {
+    [*] --> Radiating
+    Radiating: running = True
+    Radiating: aborted = False
+    Radiating: Thread aktiv
+    Radiating: ProgressBar läuft
+}
+
+state Stopping {
+    [*] --> Aborting
+    Aborting: running = False
+    Aborting: aborted = True
+    Aborting: Thread wird beendet
+}
+
+state Finished {
+    [*] --> ShowResult
+    ShowResult: running = False
+    ShowResult: aborted = False (erfolg)\noder aborted = True (abort)
+}
+
+state Cleanup {
+    [*] --> Reset
+    Reset: UI wird zurückgesetzt
+    Reset: StatusLED = Rot
+    Reset: Buttons zurück auf "Start"
+}
+
+' ===== Übergänge =====
+
+Idle --> Running: start(duration)\n[duration >= 1 && duration <= MAX]\nAktion: Thread starten,\nStatusLED aktiv,\nUI disable
+
+Running --> Running: update_progress()\n[elapsed < duration]\nAktion: Progress bar,\nLabels aktualisieren
+
+Running --> Finished: [elapsed >= duration]\nAktion: Thread beendet,\nBeep (400Hz)
+
+Running --> Stopping: stop()\n[Benutzer klickt STOP]\nAktion: aborted = True,\nrunning = False
+
+Stopping --> Finished: [Benutzer-Stop\nbestätigt]
+
+Finished --> Cleanup: show_finished_message()\noder show_abort_message()\nAktion: Info/Warning Box zeigen
+
+Cleanup --> Idle: reset_ui()\nAktion: UI zurücksetzen,\nStatusLED = Rot,\nEntry leeren
+
+' ===== Nested States für UI-Komponenten =====
+
+state UIStatesDuringRadiation {
+    [*] --> ButtonStopped
+    ButtonStopped: Button="Start"\nBG=Green
+    ButtonStopped --> ButtonRunning: start() aufgerufen
+    ButtonRunning: Button="Stop"\nBG=Red
+    ButtonRunning --> ButtonStopped: stop() aufgerufen\noder Finished erreicht
+}
+
+state LEDStatesDuringRadiation {
+    [*] --> LEDInactive
+    LEDInactive: Farbe=Rot
+    LEDInactive --> LEDActive: start() aufgerufen
+    LEDActive: Farbe=Grün
+    LEDActive --> LEDInactive: stop/Finished
+}
+
+note right of Idle
+    Initiale Zustand
+    App bereit zur Eingabe
+end note
+
+note right of Running
+    Strahlung läuft
+    Thread aktiv
+    UI Updates alle 20ms
+end note
+
+note right of Stopping
+    Benutzer klickte STOP
+    Thread wird graceful beendet
+end note
+
+note right of Finished
+    Strahlung vorbei
+    Erfolgsmeldung oder Warnung
+end note
+
+note right of Cleanup
+    UI wird für nächste
+    Iteration vorbereitet
+end note
+
+@enduml

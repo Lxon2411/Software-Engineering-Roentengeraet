@@ -1,0 +1,73 @@
+@startuml RadiationSimulation
+
+skinparam classBackgroundColor #F0F0F0
+skinparam classBorderColor #333333
+skinparam arrowColor #666666
+
+class RadiationController {
+    - ui: RadiationUI
+    - running: bool
+    - aborted: bool
+    - thread: Thread
+    ---
+    + __init__(ui: RadiationUI)
+    + start(duration: int)
+    + _run_radiation(duration: int)
+    + stop()
+}
+
+class RadiationUI {
+    - controller: RadiationController
+    - root: tk.Tk
+    - input_frame: tk.LabelFrame
+    - duration_label: tk.Label
+    - duration_entry: tk.Entry
+    - elapsedTime_label: tk.Label
+    - progress: ttk.Progressbar
+    - progress_label: tk.Label
+    - startButton: tk.Button
+    - status_led: StatusLED
+    ---
+    + __init__(root: tk.Tk, controller: RadiationController)
+    + start_radiation()
+    + update_progress(value: float, max_value: float)
+    + reset_ui()
+    + show_finished_message(duration: float)
+    + show_abort_message(elapsed: float)
+    + stop_radiation()
+}
+
+class StatusLED {
+    - status_frame: tk.LabelFrame
+    - inner_frame: tk.Frame
+    - status_label: tk.Label
+    - status_canvas: tk.Canvas
+    - status_circle: int
+    ---
+    + __init__(root: tk.Tk)
+    + set_active()
+    + set_inactive()
+}
+
+RadiationUI --> RadiationController : controliert
+RadiationUI --> StatusLED : enthält
+RadiationController --> RadiationUI : aktualisiert
+
+note right of RadiationController
+    Verwaltet Strahlung in separatem Thread
+    Ruft UI-Update-Methoden auf
+    Berechnet verstrichene Zeit
+end note
+
+note right of RadiationUI
+    Tkinter-basierte Benutzeroberfläche
+    Verwaltet Eingaben und Anzeigen
+    Zeigt Fortschritt und Status
+end note
+
+note right of StatusLED
+    Visualisiert Aktivitätsstatus
+    als farbige LED (rot/grün)
+end note
+
+@enduml
