@@ -1,5 +1,4 @@
-# Traceability-Matrix Sprint 2
-
+# Traceability-Matrix
 ## Funktionale Requirements
 
 | **Req.-ID** | **Titel**                          | **Komponenten**         | **Klassen**                                             | **Schnittstellen / Methoden**                                                                                                                                                                                         | **Design-Pattern**                                  | **Testfall-ID(s)** | **Status**                                                 |
