@@ -5,32 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="30fd40a8-e222-44c5-81ef-5934050a56c3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/docs/Sprint2/images/Klassendiagramm.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Sprint2/images/Kommunikationsdiagramm.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Sprint2/images/Komponentendiagramm.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Sprint2/images/Sequenzdiagramm.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Sprint2/images/Zustandsdiagramm.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Sprint2/plantUML_scripts/klassendiagramm.plantuml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Sprint2/plantUML_scripts/kommunikationsdiagramm.plantuml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Sprint2/plantUML_scripts/komponentendiagramm.plantuml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Sprint2/plantUML_scripts/sequenzdiagramm.plantuml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Sprint2/plantUML_scripts/zustandsdiagramm.plantuml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Software-Engineering-Roentengeraet.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Software-Engineering-Roentengeraet.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_03_12_2025_11_58__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_03_12_2025_11_58__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_11_2025_16_22_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_11_2025_16_22__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/Sprint1/Traceability-Matrix1.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Sprint1/Traceability-Matrix1.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/Sprint2/Design2.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Sprint2/Design2.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/Sprint2/Implementierung2.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Sprint2/Implementierung2.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/Sprint2/Sprint2.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Sprint2/Sprint2.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/Sprint2/Test2.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Sprint2/Test2.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/Sprint2/Traceability-Matrix2.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Sprint2/Traceability-Matrix2.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/Traceability-Matrix.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Traceability-Matrix.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/ui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/system/status_led.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/system/status_led.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
