@@ -26,7 +26,7 @@ Es gibt zwei verschiedene Möglichkeiten, das Projekt zum Laufen zu bringen:
       - Kein Python erforderlich
       - Keine zusätzlichen Abhängigkeiten nötig
       - Funktioniert nur unter **Windows**!  
-      **Hinweis:** Je nach Windows-Systemeinstellung muss beim ersten Start der Hinweis *Die App wurde aus Sicherheitsgründen blockiert* mit *"Trotzdem ausführen"* bestätigt werden.
+      **Hinweis:** Je nach Windows-Systemeinstellung muss beim ersten Start der Hinweis *"Die App wurde aus Sicherheitsgründen blockiert"* mit *"Trotzdem ausführen"* bestätigt werden.
 2. Alternative: Ausführung des Quellcodes
     ```cmd
     git clone https://github.com/Lxon2411/Software-Engineering-Roentgengeraet.git

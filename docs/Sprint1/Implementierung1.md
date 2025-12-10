@@ -1,6 +1,6 @@
 # Implementierung
 ## Traceability-Matrix
-[Traceability-Matrix](./Traceability-Matrix1.md)
+[Traceability-Matrix](../Traceability-Matrix.md)
 ## Allgemeine Projektmetriken
 | **Metrik**               | **Wert**                                        | **Beschreibung**                                |
 |--------------------------|-------------------------------------------------|-------------------------------------------------|

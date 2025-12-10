@@ -1,42 +1,20 @@
 # Sprint 2
-**Zeitraum: 03.12.2025 bis 06.12.2025**
+**Zeitraum: 07.12.2025 bis 12.12.2025**
 
 ## Sprint Planning
 Im Rahmen des zweiten Sprints sollen folgende Requirements implementiert werden:
-- Req. 4.1 (funktional)
-- Req. 5.1 (funktional) fertig implementieren
-- Req. 1.2 (nicht-funktional)
-- Req. 1.4 (nicht-funktional)
+- Req. 5.2 (funktional)
+- Req. 1.3 (nicht-funktional)
 
 
 ## Ziel des Sprints
-1. **Architektur-Refactoring**: Implementierung der fehlenden Systemschicht zur Entkopplung von GUI und Logik
-2. **Code-Qualität**: Strikte Umsetzung des 3-Schichten-Modells (GUI → Controller → System)
-3. **UI-Verschlankung**: Verlagerung von Business-Logik aus der GUI in den Controller
-4. **Thread-Sicherheit**: Evaluierung und Optimierung des Timer-Mechanismus (Thread vs. `tkinter.after()`)
-5. **Vollständige Testabdeckung**: Unit-Tests für Controller und SystemLayer
+
 
 ## Architektur und Design
 
-Die Systemarchitektur wurde im Sprint 2 vollständig überarbeitet und dokumentiert:
-
-- **Klassendiagramm**: Zeigt die Beziehungen zwischen RadiationController, RadiationUI und StatusLED
-- **Komponentendiagramm**: Definiert 5 Schnittstellen (IUserInteraction, ILogicControl, ISystemAccess, IUIUpdate, IStatusIndicator)
-- **Sequenzdiagramm**: Visualisiert den zeitlichen Ablauf in 5 Phasen
-- **Zustandsdiagramm**: Modelliert die Zustandsübergänge des Controllers
-- **Kommunikationsdiagramm**: Zeigt die Abhängigkeiten und Interaktionen zwischen Komponenten
 
 ## Code-Mappings 
 
-| **Requirement** | **Datei**       | **Klasse**            | **Methode(n)**                                    | **Zeilennummern (ca.)** |
-|-----------------|-----------------|-----------------------|---------------------------------------------------|-------------------------|
-| **4.1**         | `ui.py`         | `RadiationUI`         | `stop_radiation()`                                | ~80-82                  |
-| **4.1**         | `controller.py` | `RadiationController` | `stop()`                                          | ~25-28                  |
-| **5.1**         | `ui.py`         | `RadiationUI`         | `update_progress(value, max_value)`               | ~56-65                  |
-| **5.1**         | `status_led.py` | `StatusLED`           | `set_active()`, `set_inactive()`                  | ~18-22                  |
-| **5.1**         | `controller.py` | `RadiationController` | `_run_radiation()` (ruft `update_progress()` auf) | ~16-20                  |
-| **1.2**         | `controller.py` | `RadiationController` | `stop()` (Flag-Verwaltung)                        | ~25-28                  |
-| **1.4**         | `controller.py` | `RadiationController` | `_run_radiation()` (Timing-Logik)                 | ~13-24                  |
 
 ---
 

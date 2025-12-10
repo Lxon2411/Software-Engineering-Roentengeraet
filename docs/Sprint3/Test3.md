@@ -1,14 +1,24 @@
 # Test
 
-**Sprint 2 Zeitraum: 03.12.2025 bis 06.12.2025**
+**Sprint 2 Zeitraum: 07.12.2025 bis 12.12.2025**
 
 Die folgenden Testfälle prüfen die in Sprint 2 implementierten Requirements:
-- **Req. 4.1** (funktional): Manuelles Stoppen
-- **Req. 5.1** (funktional): Statusanzeige und Fortschrittsanzeige
-- **Req. 1.2** (nicht-funktional): Sicherheit
-- **Req. 1.4** (nicht-funktional): Zuverlässigkeit
-
+- **Req. 5.2** (funktional): Ereignis-Logging
+- **Req. 1.3** (nicht-funktional): 
 ---
+
+## Offene Testfälle für Sprint 3
+
+1. **Unit-Tests (automatisiert)**: Pytest-basierte Tests für alle Controller-Methoden
+2. **Edge-Case-Tests**:
+   - Mehrfaches schnelles Start/Stop
+   - Stop während Abschalt-Phase
+   - Sehr kurze Strahlungszeiten (< 1s)
+   - Sehr lange Strahlungszeiten (> 60s)
+3. **Stress-Tests**: 100× Start/Stop-Zyklen ohne Memory-Leaks
+4. **Barrierefreiheit-Tests** (Req. 1.3): Screenreader-Kompatibilität, Farbkontrast
+5. **Plattform-Tests**: SystemLayer auf Linux/macOS testen
+
 
 ## Testfälle auf Modulebene (algorithmische Korrektheit)
 
@@ -146,14 +156,4 @@ Diese Tests prüfen einzelne Methoden/Algorithmen, NICHT das Zusammenspiel der G
 
 ---
 
-## Offene Testfälle für Sprint 3
 
-1. **Unit-Tests (automatisiert)**: Pytest-basierte Tests für alle Controller-Methoden
-2. **Edge-Case-Tests**:
-   - Mehrfaches schnelles Start/Stop
-   - Stop während Abschalt-Phase
-   - Sehr kurze Strahlungszeiten (< 1s)
-   - Sehr lange Strahlungszeiten (> 60s)
-3. **Stress-Tests**: 100× Start/Stop-Zyklen ohne Memory-Leaks
-4. **Barrierefreiheit-Tests** (Req. 1.3): Screenreader-Kompatibilität, Farbkontrast
-5. **Plattform-Tests**: SystemLayer auf Linux/macOS testen

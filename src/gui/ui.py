@@ -43,6 +43,12 @@ class RadiationUI:
 
         self.status_led = StatusLED(root)
 
+        self.logging_frame = tk.LabelFrame(root, text="Logs", font=("Helvetica", 10, "bold"))
+        self.logging_frame.pack(padx=20, pady=30, fill="x")
+
+        self.logs_label = tk.Label(self.logging_frame, text=f"Log 1")
+        self.logs_label.pack(anchor="w", padx=10)
+
 
 
     def start_radiation(self):
