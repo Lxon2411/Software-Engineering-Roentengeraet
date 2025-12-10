@@ -21,7 +21,7 @@ von Leon Wühr
 Es gibt zwei verschiedene Möglichkeiten, das Projekt zum Laufen zu bringen:
 
 1. Schnelle & einfache Variante: Herunterladen und Ausführen der **.exe-Datei** aus dem ```dist-Ordner```
-    [main.exe](./dist/main.exe)  
+    [main.exe](./dist/RadiationSimulator_v3.exe)  
     **Voraussetzungen:**
       - Kein Python erforderlich
       - Keine zusätzlichen Abhängigkeiten nötig

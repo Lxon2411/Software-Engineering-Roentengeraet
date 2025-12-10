@@ -1,0 +1,96 @@
+@startuml RadiationSimulator_ClassDiagram
+
+!define ABSTRACT abstract
+!define STATIC static
+!define PRIVATE private
+!define PUBLIC public
+
+' Configuration
+class Config {
+    {static} MAX_DURATION: int = 120
+}
+
+' Model/Controller
+class RadiationController {
+    -ui: RadiationUI
+    -running: bool
+    -aborted: bool
+    -thread: threading.Thread
+
+    +__init__(ui: RadiationUI): void
+    +start(duration: int): void
+    -_run_radiation(duration: int): void
+    +stop(): void
+}
+
+' UI Components
+class RadiationUI {
+    -controller: RadiationController
+    -root: tk.Tk
+    -input_frame: tk.LabelFrame
+    -duration_label: tk.Label
+    -duration_entry: tk.Entry
+    -elapsedTime_label: tk.Label
+    -progress: ttk.Progressbar
+    -progress_label: tk.Label
+    -startButton: tk.Button
+    -status_led: StatusLED
+    -log_widget: scrolledtext.ScrolledText
+    -export_log_button: tk.Button
+
+    +__init__(root: tk.Tk, controller: RadiationController): void
+    +start_radiation(): void
+    +update_progress(value: float, max_value: float): void
+    +reset_ui(): void
+    +show_finished_message(duration: int): void
+    +show_abort_message(elapsed: float): void
+    +stop_radiation(): void
+    +log_message(msg: str): void
+    +export_logs(): void
+}
+
+class StatusLED {
+    -status_frame: tk.LabelFrame
+    -inner_frame: tk.Frame
+    -status_label: tk.Label
+    -status_canvas: tk.Canvas
+    -status_circle: int
+
+    +__init__(root: tk.Tk): void
+    +set_active(): void
+    +set_inactive(): void
+}
+
+' Application Entry Point
+class Application {
+    +main(): void
+}
+
+' Relationships and Dependencies
+RadiationController --> RadiationUI : uses
+RadiationController --> Config : reads
+RadiationUI --> StatusLED : contains
+RadiationUI --> Config : reads
+Application --> RadiationUI : creates
+Application --> RadiationController : creates
+
+' Notes
+note right of RadiationController
+    Verwaltet den Strahlungsprozess
+    in einem separaten Thread.
+    Kommuniziert mit UI für Updates.
+end note
+
+note right of RadiationUI
+    Hauptbenutzeroberfläche mit
+    tkinter. Koordiniert alle
+    Eingaben und Ausgaben.
+end note
+
+note right of StatusLED
+    Visueller Indikator für
+    Strahlungsstatus
+    (aktiv/inaktiv).
+end note
+
+@enduml

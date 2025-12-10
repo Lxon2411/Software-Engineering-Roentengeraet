@@ -1,0 +1,24 @@
+<changelist name="Uncommitted_changes_before_Update_at_10_12_2025_12_29_[Changes]" date="1765366188870" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_12_2025_12_29_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 10.12.2025 12:29 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="build/RadiationSimulator_v2/RadiationSimulator_v2.pkg" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_12_2025_12_29_[Changes]/RadiationSimulator_v2.pkg" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="build/RadiationSimulator_v2/base_library.zip" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_12_2025_12_29_[Changes]/base_library.zip" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="dist/RadiationSimulator_v2.exe" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_12_2025_12_29_[Changes]/RadiationSimulator_v2.exe" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="build/RadiationSimulator_v2/PYZ-00.pyz" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_12_2025_12_29_[Changes]/PYZ-00.pyz" />
+  </binary>
+</changelist>

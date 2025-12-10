@@ -1,0 +1,82 @@
+@startuml RadiationSimulator_CommunicationDiagram
+
+participant User
+participant "RadiationUI" as UI
+participant "RadiationController" as Controller
+participant "StatusLED" as LED
+participant "Config" as Config
+participant "File System" as FS
+
+== Initialisierung ==
+User -> UI: Fenster wird geöffnet
+UI -> LED: __init__(root)
+LED -> UI: StatusLED wird erstellt
+UI -> Controller: Controller wird übergeben
+
+== Strahlungsprozess starten ==
+User -> UI: Dauer eingeben & "Start" klicken
+UI -> UI: start_radiation()
+UI -> UI: Validierung (1-MAX_DURATION)
+UI -> Config: MAX_DURATION auslesen
+Config --> UI: 120
+UI -> Controller: start(duration)
+Controller -> Controller: Thread starten
+Controller -> UI: log_message("Strahlung gestartet...")
+UI -> UI: update_progress(0, duration)
+UI -> LED: set_active()
+LED -> UI: LED auf Grün setzen
+
+== Strahlungsprozess läuft ==
+loop während self.running == True
+    Controller -> Controller: elapsed berechnen
+    Controller -> UI: update_progress(elapsed, duration)
+    UI -> UI: Fortschrittsbalken aktualisieren
+    UI -> UI: Prozentual aktualisieren
+    UI -> UI: Label aktualisieren
+    Controller -> Controller: sleep(0.02)
+end
+
+== Strahlungsprozess beendet (normal) ==
+Controller -> Controller: elapsed >= duration
+Controller -> Controller: self.running = False
+Controller -> UI: update_progress(final_elapsed, duration)
+UI -> UI: Fortschrittsbalken auf 100%
+Controller -> UI: log_message("Strahlung automatisch beendet...")
+Controller -> UI: reset_ui()
+UI -> LED: set_inactive()
+LED -> UI: LED auf Rot setzen
+UI -> UI: Button zurück auf "Start"
+Controller -> UI: show_finished_message(duration)
+UI -> User: Dialog "Erfolgreich beendet"
+User -> UI: Dialog bestätigen
+
+== Strahlungsprozess abgebrochen (Stop) ==
+User -> UI: "Stop" klicken
+UI -> UI: stop_radiation()
+UI -> Controller: stop()
+Controller -> Controller: self.aborted = True
+Controller -> Controller: self.running = False
+Controller -> UI: log_message("Strahlung abgebrochen...")
+Controller -> UI: reset_ui()
+UI -> LED: set_inactive()
+LED -> UI: LED auf Rot setzen
+UI -> UI: Button zurück auf "Start"
+Controller -> UI: show_abort_message(elapsed)
+UI -> User: Dialog "Abgebrochen"
+User -> UI: Dialog bestätigen
+
+== Logs exportieren ==
+User -> UI: "Logs exportieren" klicken
+UI -> UI: export_logs()
+UI -> User: Dateidialog öffnen
+User -> UI: Datei wählen
+UI -> FS: open(file_path, "w")
+FS --> UI: Datei geöffnet
+UI -> FS: write(Logs mit Header)
+FS --> UI: Daten geschrieben
+UI -> FS: close()
+FS --> UI: Datei geschlossen
+UI -> User: Dialog "Erfolgreich exportiert"
+User -> UI: Dialog bestätigen
+
+@enduml

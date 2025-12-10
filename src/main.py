@@ -13,10 +13,10 @@ def main():
     root.geometry("500x550")
     root.resizable(False, False)
 
-    BASE_DIR = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
-    icon_path = os.path.join(BASE_DIR, "icon.png")
-    icon = PhotoImage(file=icon_path)
-    root.iconphoto(False, icon)
+    # BASE_DIR = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    # icon_path = os.path.join(BASE_DIR, "icon.png")
+    # icon = PhotoImage(file=icon_path)
+    # root.iconphoto(False, icon)
 
     ui = RadiationUI(root, None)
     controller = RadiationController(ui)
@@ -26,4 +26,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

@@ -16,46 +16,77 @@ Im Folgenden sind die Entwürfe eines Klassendiagramms, Sequenzdiagramms, Zustan
 
 | Pattern                    | Wo im Projekt                                                            | Grund                                                                                                         |
 |----------------------------|--------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
-| **MVC**                    |  GUI (View), RadiationController (Controller), SystemLayer (Model)       | Trennung von Darstellung, Logik und Datenzugriff für bessere Wartbarkeit und Testbarkeit                      |
-| **Proxy**                  | SystemLayer abstrahiert OS-/Hardwarezugriffe                             | Systemschicht kapselt Zugriff auf OS-Funktionen (Systemzeit, Sleep, Soundausgabe)                             |
-| **Observer**               | `update_progress()`, `show_finished_message()`, `show_abort_message()`   | GUI beobachtet und reagiert auf Zustandsänderungen vom Controller                                             |
-| **Facade**                 | GUI spricht nur über `RadiationController`, nicht direkt mit SystemLayer | Vereinfacht Schnittstellen für externe Konsumenten                                                            |
-| **Strategy**               | `start()` und `stop()` Methoden als unterschiedliche Strategien          | Unterschiedliche Ausführungsstrategien (Start vs. Stop) mit gleicher Schnittstelle                            |
-| **Thread** (Concurrency)   | `_run_radiation()` läuft in separatem Daemon-Thread                      | Verhindert UI-Blockierung und ermöglicht responsive Benutzeroberfläche                                        |
-| **State Machine**          | RadiationController mit `running` und `aborted` Flags                    | Modelliert die verschiedenen Zustände der Strahlung (idle, running, stopping, finished)                       |
-| **Callback/Event Handler** | UI-Methoden als Callbacks vom Controller aufgerufen                      | Entkopplung von Controller und UI durch asynchrone Kommunikation                                              |
+| **MVC (Model-View-Controller)** | `RadiationUI` (View), `RadiationController` (Controller), implizite Datenlogik im Controller (Model) | Trennung von Darstellung, Steuerungslogik und Geschäftslogik für bessere Wartbarkeit und Testbarkeit |
+| **Observer**               | `update_progress()`, `log_message()`, `show_finished_message()`, `show_abort_message()` | GUI beobachtet Zustandsänderungen des Controllers und reagiert asynchron auf Events |
+| **Facade**                 | `RadiationUI` kapselt die gesamte GUI-Komplexität (tkinter Widgets, Layout, Dialoge) | Vereinfacht die Schnittstelle für den Controller - dieser muss nur wenige öffentliche Methoden kennen |
+| **State Machine**          | `RadiationController` mit `running` und `aborted` Boolean-Flags | Modelliert die Zustände der Strahlung: Idle → Running → (Finished/Aborted) → Idle |
+| **Thread/Concurrency**     | `_run_radiation()` läuft in separatem Daemon-Thread mit `threading.Thread` | Verhindert UI-Blockierung während der Strahlungsausführung und ermöglicht responsive Benutzeroberfläche |
+| **Callback/Event Handler** | UI-Button Callbacks (`command=self.start_radiation`, `command=self.stop_radiation`) | Ereignisgesteuerte Kommunikation zwischen GUI und Controller ohne direkte Kopplung |
+| **Singleton (implizit)**   | `Config.MAX_DURATION` als Modul-Level Konstante | Zentrale Konfiguration mit globalem Zugriff - nur eine Instanz der Konfigurationsdaten |
+| **Composite**              | `StatusLED` als eigenständige Komponente in `RadiationUI` eingebettet | Strukturiert komplexe GUI-Elemente hierarchisch - StatusLED ist wiederverwendbare Komponente |
+| **Strategy (implizit)**    | Unterschiedliche Beendigungslogik: normale Beendigung vs. Abbruch | Verschiedene Verhaltensweisen beim Strahlungsende mit gleicher Schnittstelle (`reset_ui()`) |
 
 ## Architektur-Übersicht
 
-Die Gesamtarchitektur folgt einem **schichtweisen Aufbau**:
+Die Gesamtarchitektur folgt einem **schichtweisen Aufbau mit MVC-Pattern**:
 
 ```
-┌─────────────────────────────────────┐
-│   Präsentationsschicht (GUI)         │
-│  ┌──────────────┐  ┌──────────────┐ │
-│  │ RadiationUI  │  │  StatusLED   │ │
-│  └──────────────┘  └──────────────┘ │
-└──────────────┬──────────────────────┘
-               │ ILogicControl
+┌─────────────────────────────────────────────────────────┐
+│         Präsentationsschicht (View)                      │
+│  ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓  │
+│  ┃  RadiationUI (main.py, ui.py)                    ┃  │
+│  ┃  ┌──────────────┐  ┌──────────────┐             ┃  │
+│  ┃  │ Input Widgets│  │ StatusLED    │             ┃  │
+│  ┃  │ - Entry      │  │ - Canvas     │             ┃  │
+│  ┃  │ - Button     │  │ - Label      │             ┃  │
+│  ┃  └──────────────┘  └──────────────┘             ┃  │
+│  ┃  ┌──────────────┐  ┌──────────────┐             ┃  │
+│  ┃  │ Progressbar  │  │ Log Widget   │             ┃  │
+│  ┃  │ - ttk.Bar    │  │ - ScrollText │             ┃  │
+│  ┃  └──────────────┘  └──────────────┘             ┃  │
+│  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛  │
+└──────────────┬──────────────────────────────────────────┘
+               │ Controller Interface
+               │ - start(duration)
+               │ - stop()
                ▼
-┌─────────────────────────────────────┐
-│  Geschäftslogik-Schicht             │
-│  ┌─────────────────────────────────┐│
-│  │   RadiationController            ││
-│  │  - Strahlung verwalten           ││
-│  │  - Threading                     ││
-│  │  - State Management              ││
-│  └─────────────────────────────────┘│
-└──────────────┬──────────────────────┘
-               │ ISystemAccess
+┌─────────────────────────────────────────────────────────┐
+│       Steuerungsschicht (Controller)                     │
+│  ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓  │
+│  ┃  RadiationController (controller.py)             ┃  │
+│  ┃  - Strahlungsprozess verwalten                   ┃  │
+│  ┃  - Threading koordinieren                        ┃  │
+│  ┃  - State Management (running/aborted)            ┃  │
+│  ┃  - UI-Callbacks aufrufen                         ┃  │
+│  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛  │
+└──────────────┬──────────────────────────────────────────┘
+               │ Model Interface (implizit)
+               │ - Zeit-/Dauerdaten
+               │ - Zustandsdaten
                ▼
-┌─────────────────────────────────────┐
-│  System-Abstraktions-Schicht        │
-│  ┌─────────────────────────────────┐│
-│  │   SystemLayer                    ││
-│  │  - Zeit (time.time())            ││
-│  │  - Sleep (time.sleep())          ││
-│  │  - Sound (winsound.Beep())       ││
-│  └─────────────────────────────────┘│
-└─────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────┐
+│    Daten & Systemschicht (Model)                         │
+│  ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓  │
+│  ┃  Config (config.py)                              ┃  │
+│  ┃  - MAX_DURATION = 120                            ┃  │
+│  ┃                                                   ┃  │
+│  ┃  Python Standard Library                         ┃  │
+│  ┃  - threading.Thread                              ┃  │
+│  ┃  - time.time() / time.sleep()                    ┃  │
+│  ┃  - winsound.Beep()                               ┃  │
+│  ┃  - tkinter.filedialog                            ┃  │
+│  ┃  - datetime                                      ┃  │
+│  ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛  │
+└─────────────────────────────────────────────────────────┘
 ```
+
+## Kommunikationsfluss
+
+Die Kommunikation zwischen den Schichten folgt dem **Observer- und Callback-Pattern**:
+
+1. **User → View**: Benutzerinteraktion (Button-Klick, Eingabe)
+2. **View → Controller**: Methodenaufruf `start(duration)` oder `stop()`
+3. **Controller → Threading**: Neuer Thread für `_run_radiation()` wird gestartet
+4. **Controller → View**: Callbacks für UI-Updates (`update_progress()`, `log_message()`)
+5. **View → StatusLED**: Zustandsänderungen (`set_active()`, `set_inactive()`)
+6. **View → User**: Visuelle Rückmeldung (Fortschrittsbalken, Dialoge, LED-Farbe)

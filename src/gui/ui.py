@@ -1,6 +1,7 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, scrolledtext, filedialog
 import winsound
+from datetime import datetime
 
 from src.config import MAX_DURATION
 from src.system.status_led import StatusLED
@@ -43,13 +44,27 @@ class RadiationUI:
 
         self.status_led = StatusLED(root)
 
-        self.logging_frame = tk.LabelFrame(root, text="Logs", font=("Helvetica", 10, "bold"))
-        self.logging_frame.pack(padx=20, pady=30, fill="x")
+        log_frame = tk.LabelFrame(root, text="Logs", font=("Helvetica", 10, "bold"))
+        log_frame.pack(padx=20, pady=5, fill="x")
 
-        self.logs_label = tk.Label(self.logging_frame, text=f"Log 1")
-        self.logs_label.pack(anchor="w", padx=10)
+        log_button_frame = tk.Frame(log_frame)
+        log_button_frame.pack(fill="x", padx=5, pady=(5, 0))
 
+        self.export_log_button = tk.Button(
+            log_button_frame,
+            text="Logs exportieren",
+            font=("Arial", 9, "bold"),
+            command=self.export_logs
+        )
+        self.export_log_button.pack(side="right")
 
+        self.log_widget = scrolledtext.ScrolledText(
+            log_frame,
+            height=8,
+            state="disabled",
+            wrap="word"
+        )
+        self.log_widget.pack(fill="both", expand=True, padx=5, pady=5)
 
     def start_radiation(self):
         try:
@@ -101,3 +116,36 @@ class RadiationUI:
     def stop_radiation(self):
         self.controller.stop()
 
+    def log_message(self, msg: str):
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        line = f"• [{timestamp}] {msg}"
+        self.log_widget.config(state="normal")
+        self.log_widget.insert("end", line + "\n")
+        self.log_widget.see("end")
+        self.log_widget.config(state="disabled")
+
+    def export_logs(self):
+        logs = self.log_widget.get("1.0", "end").strip()
+        if not logs:
+            messagebox.showinfo("Logs exportieren", "Keine Log-Einträge vorhanden.")
+            return
+
+        ts = datetime.now().strftime("%Y%m%d-%H%M%S")
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        default_name = f"RGS-Logs-{ts}.txt"
+        file_path = filedialog.asksaveasfilename(
+            title="Logs exportieren",
+            initialfile=default_name,
+            defaultextension=".txt",
+            filetypes=[("Textdateien", "*.txt"), ("Alle Dateien", "*.*")]
+        )
+        if not file_path:
+            return
+
+        try:
+            with open(file_path, "w", encoding="utf-8") as f:
+                f.write(f"Röntgengerät Simulator - Protokoll erstellt am {timestamp}\n\n")
+                f.write(logs + "\n")
+            messagebox.showinfo("Logs exportieren", f"Logs wurden erfolgreich nach\n{file_path}\nexportiert.")
+        except OSError as e:
+            messagebox.showerror("Fehler beim Exportieren", f"Die Logs konnten nicht gespeichert werden:\n[{e}")

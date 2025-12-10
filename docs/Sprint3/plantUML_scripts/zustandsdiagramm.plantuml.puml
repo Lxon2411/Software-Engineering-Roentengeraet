@@ -1,0 +1,110 @@
+@startuml RadiationSimulator_StateDiagram
+
+[*] --> Idle
+
+state Idle {
+    state "App gestartet\nUI initialisiert" as AppStarted
+    state "Benutzer wartet\nauf Input" as WaitingForInput
+
+    AppStarted --> WaitingForInput
+}
+
+state "Eingabe validieren" as InputValidation {
+    state "Dauer eingeben" as EnterDuration
+    state "Validierung\n1-120 Sekunden" as ValidateInput
+
+    EnterDuration --> ValidateInput
+}
+
+state Radiating {
+    state "Thread wird\ngestartet" as StartThread
+    state "Strahlung aktiv\n(Loop läuft)" as RadiationActive
+    state "Fortschritt wird\naktualisiert" as UpdateProgress
+
+    StartThread --> RadiationActive
+    RadiationActive --> UpdateProgress
+    UpdateProgress --> RadiationActive: elapsed < duration
+}
+
+state "Beendigung" as Termination {
+    state "Zeit abgelaufen?" as CheckTimeout
+    state "Normales Ende" as NormalEnd
+    state "Abbruch durch\nBenutzer" as UserAbort
+
+    CheckTimeout --> NormalEnd: ja
+    CheckTimeout --> UserAbort: Stop geklickt
+}
+
+state "UI Reset" as UIReset {
+    state "Button → Start\nLED → Rot\nProgress → 0" as ResetUI
+    state "Nachricht anzeigen" as ShowMessage
+
+    ResetUI --> ShowMessage
+}
+
+state "Log Export" as LogExport {
+    state "Export Dialog\nöffnen" as OpenDialog
+    state "Logs in Datei\nschreiben" as WriteLogs
+    state "Erfolgs-\nmeldung" as SuccessMsg
+
+    OpenDialog --> WriteLogs
+    WriteLogs --> SuccessMsg
+}
+
+' Transitions
+WaitingForInput --> InputValidation: Start klicken
+
+InputValidation --> Idle: ✗ Ungültig\n(Fehlermeldung)
+
+InputValidation --> Radiating: ✓ Gültig\n(1-120 Sekunden)
+
+Radiating --> Termination: Loop endet
+
+Termination --> UIReset: Abfrage Status
+
+UIReset --> Idle: Reset abgeschlossen\nMeldung angezeigt
+
+WaitingForInput --> LogExport: "Logs exportieren"\nklicken
+
+LogExport --> WaitingForInput: Export beendet
+
+' Notes
+note right of Idle
+    Initialzustand
+    App läuft, wartet auf
+    Benutzerinteraktion
+end note
+
+note right of InputValidation
+    Validierung der Eingabe
+    gegen MAX_DURATION (120s)
+end note
+
+note right of Radiating
+    Strahlungsprozess aktiv
+    Thread: _run_radiation() läuft
+    UI: kontinuierliche Updates
+    LED: grün
+end note
+
+note right of Termination
+    Prüfung des Endzustands
+    - Normale Beendigung: Zeit abgelaufen
+    - Abbruch: Benutzer hat Stop geklickt
+end note
+
+note right of UIReset
+    Rückkehr zur Idle
+    - Button: "Start" (grün)
+    - LED: rot
+    - Progress: 0%
+    - Nachricht: Info/Warnung
+end note
+
+note right of LogExport
+    Logs können jederzeit
+    (auch während Strahlung)
+    exportiert werden
+end note
+
+@enduml

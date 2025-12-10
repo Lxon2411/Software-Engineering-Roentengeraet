@@ -1,0 +1,182 @@
+@startuml RadiationSimulator_SequenceDiagram
+
+actor User
+participant "main.py" as Main
+participant "RadiationUI" as UI
+participant "RadiationController" as Controller
+participant "StatusLED" as LED
+participant "Config" as Config
+participant "threading.Thread" as Thread
+participant "tkinter" as TK
+
+== Anwendungsstart ==
+User -> Main: Programm starten
+Main -> TK: tk.Tk() erstellen
+Main -> UI: RadiationUI(root, None)
+activate UI
+    UI -> LED: StatusLED(root)
+    activate LED
+        LED -> TK: Canvas, Label erstellen
+    deactivate LED
+    UI -> TK: alle UI-Elemente erstellen
+deactivate UI
+Main -> Controller: RadiationController(ui)
+activate Controller
+    Controller -> UI: self.ui = ui
+    Controller -> Controller: self.running = False
+    Controller -> Controller: self.aborted = False
+deactivate Controller
+Main -> UI: ui.controller = controller
+Main -> TK: root.mainloop()
+
+== Benutzer gibt Dauer ein und startet Strahlung ==
+User -> UI: Dauer eingeben (z.B. 30)
+UI -> UI: duration_entry.insert()
+User -> UI: "Start" Button klicken
+UI -> UI: start_radiation()
+activate UI
+    UI -> UI: duration = int(duration_entry.get())
+    UI -> Config: MAX_DURATION auslesen
+    Config --> UI: 120
+    UI -> UI: Validierung: 1 <= 30 <= 120
+    alt Validierung erfolgreich
+        UI -> Controller: start(30)
+        activate Controller
+            Controller -> Controller: self.running = True
+            Controller -> Controller: self.aborted = False
+            Controller -> Thread: Thread(target=_run_radiation, args=(30,))
+            activate Thread
+            Thread -> Controller: daemon=True setzen
+            Thread -> Thread: thread.start()
+            deactivate Thread
+            Controller -> UI: log_message("Strahlung gestartet für 30 s")
+            activate UI
+                UI -> TK: log_widget.insert("Strahlung gestartet...")
+            deactivate UI
+        deactivate Controller
+        UI -> UI: startButton.config(text="Stop", bg="red")
+        UI -> LED: set_active()
+        activate LED
+            LED -> TK: status_canvas.itemconfig(fill="green")
+        deactivate LED
+    else Validierung fehlgeschlagen
+        UI -> TK: messagebox.showerror("Fehler")
+        TK --> User: Fehlermeldung anzeigen
+    end
+deactivate UI
+
+== Strahlungsprozess läuft ==
+par Hauptthread
+    User -> User: wartet auf Benutzer
+else Radiation Thread
+    activate Controller
+        Controller -> Controller: start_time = time.time()
+        loop while self.running
+            Controller -> Controller: elapsed = time.time() - start_time
+            Controller -> Controller: Prüfe: elapsed >= 30?
+            alt elapsed < 30
+                Controller -> UI: update_progress(elapsed, 30)
+                activate UI
+                    UI -> UI: progress["value"] = elapsed
+                    UI -> UI: percent = (elapsed / 30) * 100
+                    UI -> UI: elapsedTime_label.config(text)
+                    UI -> UI: progress_label.config(text)
+                    UI -> TK: root.update_idletasks()
+                deactivate UI
+                Controller -> Thread: time.sleep(0.02)
+            else elapsed >= 30
+                Controller -> Controller: break
+            end
+        end
+
+        Controller -> Controller: self.running = False
+
+        alt not self.aborted (Normale Beendigung)
+            Controller -> UI: update_progress(30, 30)
+            activate UI
+                UI -> UI: progress["value"] = 30
+                UI -> UI: progress_label = "100 %"
+            deactivate UI
+            Controller -> UI: log_message("Strahlung automatisch beendet...")
+            activate UI
+                UI -> TK: log_widget.insert("beendet...")
+            deactivate UI
+            Controller -> UI: reset_ui()
+            activate UI
+                UI -> UI: startButton.config(text="Start", bg="green")
+                UI -> UI: progress["value"] = 0
+                UI -> UI: duration_entry.delete()
+                UI -> LED: set_inactive()
+                activate LED
+                    LED -> TK: status_canvas.itemconfig(fill="red")
+                deactivate LED
+            deactivate UI
+            Controller -> UI: show_finished_message(30)
+            activate UI
+                UI -> TK: winsound.Beep(400, 600)
+                UI -> TK: messagebox.showinfo("Fertig")
+            deactivate UI
+        else self.aborted (Abgebrochen)
+            Controller -> UI: log_message("Strahlung abgebrochen...")
+            activate UI
+                UI -> TK: log_widget.insert("abgebrochen...")
+            deactivate UI
+            Controller -> UI: reset_ui()
+            activate UI
+                UI -> UI: startButton.config(text="Start", bg="green")
+                UI -> UI: progress["value"] = 0
+                UI -> LED: set_inactive()
+                activate LED
+                    LED -> TK: status_canvas.itemconfig(fill="red")
+                deactivate LED
+            deactivate UI
+            Controller -> UI: show_abort_message(elapsed)
+            activate UI
+                UI -> TK: winsound.Beep(250, 300)
+                UI -> TK: messagebox.showwarning("Abgebrochen")
+            deactivate UI
+        end
+    deactivate Controller
+end
+
+== Benutzer bricht ab (Stop) ==
+User -> UI: "Stop" Button klicken
+UI -> UI: stop_radiation()
+activate UI
+    UI -> Controller: stop()
+    activate Controller
+        Controller -> Controller: self.aborted = True
+        Controller -> Controller: self.running = False
+    deactivate Controller
+deactivate UI
+note right of Controller: Der Thread erkennt self.running=False\nund läuft ab
+
+== Logs exportieren ==
+User -> UI: "Logs exportieren" Button klicken
+UI -> UI: export_logs()
+activate UI
+    UI -> UI: logs = log_widget.get("1.0", "end")
+    alt Logs vorhanden
+        UI -> TK: filedialog.asksaveasfilename()
+        activate TK
+            TK --> User: Datei-Speichern Dialog
+            User -> TK: Datei wählen (z.B. "RS-Logs-20251210-130000.txt")
+            TK --> UI: Dateipfad zurückgeben
+        deactivate TK
+        alt Datei gewählt
+            UI -> UI: file_path = "RS-Logs-20251210-130000.txt"
+            UI -> UI: open(file_path, "w", encoding="utf-8")
+            UI -> UI: write(Logs mit Header)
+            UI -> UI: close()
+            UI -> TK: messagebox.showinfo("Erfolg", "Logs exportiert")
+            TK --> User: Erfolgsmeldung
+        else Abgebrochen
+            UI -> UI: return (nichts tun)
+        end
+    else Keine Logs
+        UI -> TK: messagebox.showinfo("Info", "Keine Log-Einträge")
+        TK --> User: Info-Meldung
+    end
+deactivate UI
+
+@enduml
