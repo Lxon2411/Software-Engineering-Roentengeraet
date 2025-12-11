@@ -5,63 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="30fd40a8-e222-44c5-81ef-5934050a56c3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator/Analysis-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator/PKG-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator/PYZ-00.pyz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator/PYZ-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator/RadiationSimulator.pkg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator/base_library.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator/warn-RadiationSimulator.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator/xref-RadiationSimulator.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator_v2/Analysis-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator_v2/EXE-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator_v2/PKG-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator_v2/PYZ-00.pyz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator_v2/PYZ-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator_v2/RadiationSimulator_v2.pkg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator_v2/base_library.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator_v2/warn-RadiationSimulator_v2.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator_v2/xref-RadiationSimulator_v2.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator_v3/Analysis-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator_v3/EXE-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator_v3/PKG-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator_v3/PYZ-00.pyz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator_v3/PYZ-00.toc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator_v3/RadiationSimulator_v3.pkg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator_v3/base_library.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator_v3/warn-RadiationSimulator_v3.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build/RadiationSimulator_v3/xref-RadiationSimulator_v3.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist/RadiationSimulator_v3.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Sprint3/images/Klassendiagramm.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Sprint3/images/Kommunikationsdiagramm.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Sprint3/images/Sequenzdiagramm.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Sprint3/images/Zustandsdiagramm.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Sprint3/plantUML_scripts/klassendiagramm.plantuml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Sprint3/plantUML_scripts/kommunikationsdiagramm.plantuml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Sprint3/plantUML_scripts/sequenzdiagramm.plantuml.puml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Sprint3/plantUML_scripts/zustandsdiagramm.plantuml.puml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Software-Engineering-Roentengeraet.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Software-Engineering-Roentengeraet.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_07_12_2025_18_02__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_07_12_2025_18_02__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/main/Analysis-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/main/Analysis-00.toc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/main/EXE-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/main/EXE-00.toc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/main/PKG-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/main/PKG-00.toc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/main/PYZ-00.pyz" beforeDir="false" afterPath="$PROJECT_DIR$/build/main/PYZ-00.pyz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/main/PYZ-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/build/main/PYZ-00.toc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/main/base_library.zip" beforeDir="false" afterPath="$PROJECT_DIR$/build/main/base_library.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/main/main.pkg" beforeDir="false" afterPath="$PROJECT_DIR$/build/main/main.pkg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/main/warn-main.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/main/warn-main.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/main/xref-main.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/main/xref-main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/main.exe" beforeDir="false" afterPath="$PROJECT_DIR$/dist/RadiationSimulator_v1.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/Sprint3/Design3.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Sprint3/Design3.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/Sprint3/Sprint3.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Sprint3/Sprint3.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/Sprint3/Test3.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Sprint3/Test3.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/Traceability-Matrix.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/Traceability-Matrix.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.spec" beforeDir="false" afterPath="$PROJECT_DIR$/RadiationSimulator_v3.spec" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gui/ui.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gui/ui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_03_12_2025_11_58__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_03_12_2025_11_58__Changes_.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,17 +37,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "DefaultPlantUmlFileTemplate": "UML Sequence",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/Anwender/Software-Engineering-Roentengeraet/docs/Sprint3/images",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultPlantUmlFileTemplate&quot;: &quot;UML Sequence&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Anwender/Software-Engineering-Roentengeraet/docs/Sprint3/images&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Anwender\Software-Engineering-Roentengeraet\docs\Sprint2" />
