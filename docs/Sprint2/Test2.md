@@ -157,3 +157,20 @@ Diese Tests prüfen einzelne Methoden/Algorithmen, NICHT das Zusammenspiel der G
 3. **Stress-Tests**: 100× Start/Stop-Zyklen ohne Memory-Leaks
 4. **Barrierefreiheit-Tests** (Req. 1.3): Screenreader-Kompatibilität, Farbkontrast
 5. **Plattform-Tests**: SystemLayer auf Linux/macOS testen
+
+---
+
+## Regressionstests (Sprint 1 Features)
+
+Alle Sprint 1 Testfälle wurden erneut ausgeführt um sicherzustellen, dass keine Regressionen auftraten:
+
+| Sprint 1 Testfall                   | Status      | Bemerkung                                       |
+|-------------------------------------|-------------|-------------------------------------------------|
+| M1 (Eingabevalidierung)             | ✓ bestanden | Korrekt geprüft                                 |
+| M2 (Fortschrittsberechnung)         | ✓ bestanden | Korrekte Prozentberechnung                      |
+| M3 (Automatisches Stoppen)          | ✓ bestanden | Stoppt automatisch nach Ablauf der Maximaldauer |
+| I1 (Kommunikation GUI & Controller) | ✓ bestanden | GUI ruft Controller richtig auf                 |
+| I2 (Controller aktualisiert UI)     | ✓ bestanden | Controller aktualisiert UI richtig              |
+| I3 (Systemfunktionen)               | ✓ bestanden | Controller nutzt Systemfunktionen korrekt       |
+
+**Regressionstests: 6/6 bestanden (100%)**

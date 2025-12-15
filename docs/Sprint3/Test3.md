@@ -34,16 +34,16 @@ Diese Tests prüfen einzelne Methoden/Algorithmen, NICHT das Zusammenspiel der G
 
 **Ziel:** `log_message()` erzeugt korrekte Zeitstempel im Format `YYYY-MM-DD HH:MM:SS`
 
-| Merkmal             | Beschreibung                                                                                                                  |
-|---------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| Requirement         | Req. 5.2 (funktional)                                                                                                         |
-| Komponente          | GUI                                                                                                                           |
-| Modul/Methode       | `RadiationUI.log_message(msg)`                                                                                                |
-| Vorbedingungen      | GUI initialisiert, Log-Widget leer                                                                                            |
-| Ablauf              | 1. `log_message("Test 1")` aufrufen<br/>2. 2 Sekunden warten<br/>3. `log_message("Test 2")` aufrufen<br/>4. Log-Widget auslesen |
+| Merkmal             | Beschreibung                                                                                                                                       |
+|---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| Requirement         | Req. 5.2 (funktional)                                                                                                                              |
+| Komponente          | GUI                                                                                                                                                |
+| Modul/Methode       | `RadiationUI.log_message(msg)`                                                                                                                     |
+| Vorbedingungen      | GUI initialisiert, Log-Widget leer                                                                                                                 |
+| Ablauf              | 1. `log_message("Test 1")` aufrufen<br/>2. 2 Sekunden warten<br/>3. `log_message("Test 2")` aufrufen<br/>4. Log-Widget auslesen                    |
 | Erwartetes Ergebnis | 1. Erster Eintrag: `• [2025-12-10 13:20:15] Test 1`<br/>2. Zweiter Eintrag: `• [2025-12-10 13:20:17] Test 2`<br/>3. Zeitstempel sind chronologisch |
-| Ist-Ergebnis        | Korrekt → Format stimmt, Zeitstempel sind präzise und chronologisch                                                           |
-| Status              | ✓ bestanden                                                                                                                   |
+| Ist-Ergebnis        | Korrekt → Format stimmt, Zeitstempel sind präzise und chronologisch                                                                                |
+| Status              | ✓ bestanden                                                                                                                                        |
 
 ---
 
@@ -51,16 +51,16 @@ Diese Tests prüfen einzelne Methoden/Algorithmen, NICHT das Zusammenspiel der G
 
 **Ziel:** `export_logs()` erzeugt korrekte Textdatei mit Header und Logs
 
-| Merkmal             | Beschreibung                                                                                                                                        |
-|---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| Requirement         | Req. 5.2 (funktional)                                                                                                                               |
-| Komponente          | GUI                                                                                                                                                 |
-| Modul/Methode       | `RadiationUI.export_logs()`                                                                                                                         |
-| Vorbedingungen      | Log-Widget enthält 3 Einträge                                                                                                                       |
-| Ablauf              | 1. Logs mit Umlauten erstellen ("Strahlung gestartet für 10 s")<br/>2. Export-Dialog öffnen<br/>3. Datei speichern unter `test_logs.txt`<br/>4. Datei auslesen |
+| Merkmal             | Beschreibung                                                                                                                                                                        |
+|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Requirement         | Req. 5.2 (funktional)                                                                                                                                                               |
+| Komponente          | GUI                                                                                                                                                                                 |
+| Modul/Methode       | `RadiationUI.export_logs()`                                                                                                                                                         |
+| Vorbedingungen      | Log-Widget enthält 3 Einträge                                                                                                                                                       |
+| Ablauf              | 1. Logs mit Umlauten erstellen ("Strahlung gestartet für 10 s")<br/>2. Export-Dialog öffnen<br/>3. Datei speichern unter `test_logs.txt`<br/>4. Datei auslesen                      |
 | Erwartetes Ergebnis | 1. Datei beginnt mit Header: `Röntgengerät Simulator - Protokoll erstellt am YYYY-MM-DD HH:MM:SS`<br/>2. Alle 3 Log-Einträge sind enthalten<br/>3. UTF-8 Encoding (Umlaute korrekt) |
-| Ist-Ergebnis        | Korrekt → Header vorhanden, Umlaute werden korrekt gespeichert, alle Logs enthalten                                                                 |
-| Status              | ✓ bestanden                                                                                                                                         |
+| Ist-Ergebnis        | Korrekt → Header vorhanden, Umlaute werden korrekt gespeichert, alle Logs enthalten                                                                                                 |
+| Status              | ✓ bestanden                                                                                                                                                                         |
 
 ---
 
@@ -87,16 +87,16 @@ Diese Tests prüfen einzelne Methoden/Algorithmen, NICHT das Zusammenspiel der G
 
 **Ziel:** UI bleibt bedienbar während Strahlung läuft (kein UI-Freeze)
 
-| Merkmal             | Beschreibung                                                                                                                                                                    |
-|---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Requirement         | Req. 1.3 (nicht-funktional)                                                                                                                                                     |
-| Komponente          | GUI + Steuerungslogik (Threading)                                                                                                                                               |
-| Modul/Methode       | `RadiationController._run_radiation()` (Daemon-Thread), `RadiationUI` (Hauptthread)                                                                                             |
-| Vorbedingungen      | Strahlung bereit zu starten                                                                                                                                                     |
-| Ablauf              | 1. Strahlung mit 30s starten<br/>2. Während der Strahlung "Logs exportieren" Button klicken<br/>3. Dialog bedienen<br/>4. Fenster verschieben<br/>5. Stop-Button klicken       |
-| Erwartetes Ergebnis | 1. Export-Dialog öffnet sich sofort (< 50ms)<br/>2. Fenster lässt sich verschieben ohne Verzögerung<br/>3. Stop-Button reagiert sofort<br/>4. Keine sichtbaren Freezes         |
-| Ist-Ergebnis        | Korrekt → UI bleibt vollständig responsiv, alle Interaktionen funktionieren ohne Verzögerung, Daemon-Thread blockiert GUI nicht                                                 |
-| Status              | ✓ bestanden                                                                                                                                                                     |
+| Merkmal             | Beschreibung                                                                                                                                                             |
+|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Requirement         | Req. 1.3 (nicht-funktional)                                                                                                                                              |
+| Komponente          | GUI + Steuerungslogik (Threading)                                                                                                                                        |
+| Modul/Methode       | `RadiationController._run_radiation()` (Daemon-Thread), `RadiationUI` (Hauptthread)                                                                                      |
+| Vorbedingungen      | Strahlung bereit zu starten                                                                                                                                              |
+| Ablauf              | 1. Strahlung mit 30s starten<br/>2. Während der Strahlung "Logs exportieren" Button klicken<br/>3. Dialog bedienen<br/>4. Fenster verschieben<br/>5. Stop-Button klicken |
+| Erwartetes Ergebnis | 1. Export-Dialog öffnet sich sofort (< 50ms)<br/>2. Fenster lässt sich verschieben ohne Verzögerung<br/>3. Stop-Button reagiert sofort<br/>4. Keine sichtbaren Freezes   |
+| Ist-Ergebnis        | Korrekt → UI bleibt vollständig responsiv, alle Interaktionen funktionieren ohne Verzögerung, Daemon-Thread blockiert GUI nicht                                          |
+| Status              | ✓ bestanden                                                                                                                                                              |
 
 ---
 
@@ -104,16 +104,16 @@ Diese Tests prüfen einzelne Methoden/Algorithmen, NICHT das Zusammenspiel der G
 
 **Ziel:** Vollständiger Workflow mit allen Features (Start, Fortschritt, Log, Export, Stop)
 
-| Merkmal             | Beschreibung                                                                                                                                                                                                                                                                                                                                |
-|---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Requirement         | Req. 5.2 (funktional), Req. 1.3 (nicht-funktional)                                                                                                                                                                                                                                                                                          |
-| Komponente          | Gesamtsystem (GUI + Controller + StatusLED + Config)                                                                                                                                                                                                                                                                                        |
-| Modul/Methode       | Alle Komponenten                                                                                                                                                                                                                                                                                                                            |
-| Vorbedingungen      | Frisch gestartete Anwendung                                                                                                                                                                                                                                                                                                                 |
-| Ablauf              | 1. Dauer "15" eingeben<br/>2. Start klicken<br/>3. LED-Status prüfen (grün)<br/>4. Fortschrittsbalken beobachten<br/>5. Log-Einträge prüfen<br/>6. Nach 7s Stop klicken<br/>7. Abbruch-Dialog bestätigen<br/>8. Neuen Durchlauf mit "5" starten<br/>9. Automatisches Ende abwarten<br/>10. Logs exportieren<br/>11. Datei auf Korrektheit prüfen |
+| Merkmal             | Beschreibung                                                                                                                                                                                                                                                                                                                                                     |
+|---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Requirement         | Req. 5.2 (funktional), Req. 1.3 (nicht-funktional)                                                                                                                                                                                                                                                                                                               |
+| Komponente          | Gesamtsystem (GUI + Controller + StatusLED + Config)                                                                                                                                                                                                                                                                                                             |
+| Modul/Methode       | Alle Komponenten                                                                                                                                                                                                                                                                                                                                                 |
+| Vorbedingungen      | Frisch gestartete Anwendung                                                                                                                                                                                                                                                                                                                                      |
+| Ablauf              | 1. Dauer "15" eingeben<br/>2. Start klicken<br/>3. LED-Status prüfen (grün)<br/>4. Fortschrittsbalken beobachten<br/>5. Log-Einträge prüfen<br/>6. Nach 7s Stop klicken<br/>7. Abbruch-Dialog bestätigen<br/>8. Neuen Durchlauf mit "5" starten<br/>9. Automatisches Ende abwarten<br/>10. Logs exportieren<br/>11. Datei auf Korrektheit prüfen                 |
 | Erwartetes Ergebnis | 1. LED wird grün, Button wird "Stop" (rot)<br/>2. Fortschritt steigt kontinuierlich<br/>3. Log: "Strahlung gestartet für 15 s"<br/>4. Nach Stop: Abbruch-Dialog, Log: "Strahlung abgebrochen nach 7.X s"<br/>5. LED wird rot<br/>6. Nach 5s: Erfolgs-Dialog, Beep, Log: "Strahlung automatisch beendet nach 5 s"<br/>7. Export-Datei enthält alle 3 Log-Einträge |
-| Ist-Ergebnis        | Korrekt → Alle Schritte funktionieren wie erwartet, keine Fehler, alle UI-Elemente synchron                                                                                                                                                                                                                                                 |
-| Status              | ✓ bestanden                                                                                                                                                                                                                                                                                                                                 |
+| Ist-Ergebnis        | Korrekt → Alle Schritte funktionieren wie erwartet, keine Fehler, alle UI-Elemente synchron                                                                                                                                                                                                                                                                      |
+| Status              | ✓ bestanden                                                                                                                                                                                                                                                                                                                                                      |
 
 ---
 
@@ -146,27 +146,16 @@ Diese Tests prüfen einzelne Methoden/Algorithmen, NICHT das Zusammenspiel der G
 ---
 
 ## Zusätzliche Beobachtungen
-
-### Performance-Metriken
-
-| Metrik                          | Gemessen | Sollwert | Status      |
-|---------------------------------|----------|----------|-------------|
-| UI-Reaktionszeit (Button-Click) | 15ms     | < 50ms   | ✓ bestanden |
-| Thread-Start-Zeit               | 8ms      | < 100ms  | ✓ bestanden |
-| Thread-Stop-Zeit                | 28ms     | < 50ms   | ✓ bestanden |
-| Update-Frequenz                 | 49 Hz    | > 30 Hz  | ✓ bestanden |
-| Memory-Overhead (nach 10 Zyklen)| +2.1 MB  | < 10 MB  | ✓ bestanden |
-
 ### Fehlertoleranz-Tests
 
-| Szenario                              | Erwartetes Verhalten                   | Ist-Verhalten | Status      |
-|---------------------------------------|----------------------------------------|---------------|-------------|
-| Eingabe "abc" statt Zahl              | Fehlerdialog "Bitte Zahl eingeben"     | Wie erwartet  | ✓ bestanden |
-| Eingabe "0"                           | Fehlerdialog "1 bis 120"               | Wie erwartet  | ✓ bestanden |
-| Eingabe "121"                         | Fehlerdialog "1 bis 120"               | Wie erwartet  | ✓ bestanden |
-| Leeres Eingabefeld                    | Fehlerdialog "Bitte Zahl eingeben"     | Wie erwartet  | ✓ bestanden |
-| Mehrfaches Klicken auf Start (laufend)| Keine Aktion (Strahlung läuft weiter) | Wie erwartet  | ✓ bestanden |
-| Log-Export mit leeren Logs            | Info-Dialog "Keine Log-Einträge"       | Wie erwartet  | ✓ bestanden |
+| Szenario                               | Erwartetes Verhalten                  | Ist-Verhalten | Status      |
+|----------------------------------------|---------------------------------------|---------------|-------------|
+| Eingabe "abc" statt Zahl               | Fehlerdialog "Bitte Zahl eingeben"    | Wie erwartet  | ✓ bestanden |
+| Eingabe "0"                            | Fehlerdialog "1 bis 120"              | Wie erwartet  | ✓ bestanden |
+| Eingabe "121"                          | Fehlerdialog "1 bis 120"              | Wie erwartet  | ✓ bestanden |
+| Leeres Eingabefeld                     | Fehlerdialog "Bitte Zahl eingeben"    | Wie erwartet  | ✓ bestanden |
+| Mehrfaches Klicken auf Start (laufend) | Keine Aktion (Strahlung läuft weiter) | Wie erwartet  | ✓ bestanden |
+| Log-Export mit leeren Logs             | Info-Dialog "Keine Log-Einträge"      | Wie erwartet  | ✓ bestanden |
 
 ### Usability-Beobachtungen
 
