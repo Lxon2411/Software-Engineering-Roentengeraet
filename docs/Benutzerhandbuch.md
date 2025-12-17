@@ -107,5 +107,5 @@ Wenn die eingegebene Dauer ungültig ist (z. B. leer, 0, >120, Buchstaben), ersc
 4. Klicke auf „Speichern“.
 5. Eine Bestätigungsmeldung informiert über den erfolgreichen Export.
 
-Ist der Log-Bereich leer, erscheint eine Info-MessageBox:  
+*Hinweis:* Ist der Log-Bereich leer, erscheint eine Info-MessageBox:  
 „Keine Log-Einträge vorhanden.“

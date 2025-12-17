@@ -13,10 +13,10 @@ von Leon Wühr
 5. **Status- und Fortschrittsanzeige**
 
 ## Gesamtdokumentation
-[Gesamtdokumentation](./Gesamtdokumentation.md)
+[Gesamtdokumentation](docs/Gesamtdokumentation.md)
 
 ## Benutzerhandbuch
-[Benutzerhandbuch](./Benutzerhandbuch.md)
+[Benutzerhandbuch](docs/Benutzerhandbuch.md)
 
 ## Installation & Ausführung
 Es gibt zwei verschiedene Möglichkeiten, das Projekt zum Laufen zu bringen:
@@ -47,7 +47,6 @@ Es gibt zwei verschiedene Möglichkeiten, das Projekt zum Laufen zu bringen:
    - In der Python IDE (z.B. **PyCharm**) muss ein **Python-Interpreter** konfiguriert sein (*z.B. unter "File → Settings → Project → Python Interpreter"*)
 
 ## Erklärung
-
 Ich versichere, dass ich die Projektarbeit ohne Hilfe Dritter und ohne Benutzung anderer als
 der angegebenen Quellen und Hilfsmittel angefertigt habe. Die den benutzten Quellen wörtlich
 oder inhaltlich entnommenen Inhalte sind als solche kenntlich gemacht.
