@@ -2,7 +2,7 @@
 Architekturtyp: **Schichten-/Komponentenarchitektur** mit Trennung von Logik, Steuerung und GUI
 
 ## Komponentendiagramm
-![Architekturdiagramm](./images/Architektur_Komponentendiagramm.png)
+![Architekturdiagramm](../images/Architektur_Komponentendiagramm.png)
 
 ## Hauptkomponenten
 1. **GUI-Schicht (Tkinter UI)**
@@ -21,7 +21,7 @@ Architekturtyp: **Schichten-/Komponentenarchitektur** mit Trennung von Logik, St
 - Systemprüfungen
 
 ## Traceability-Matrix 
-[Traceability-Matrix](./Traceability-Matrix.md)
+[Traceability-Matrix](../Traceability-Matrix.md)
 
 ## Verantwortlichkeiten der Komponenten
 | **Komponente**  | **Rolle**                        | Verantwortlichkeiten                                                                                                                                                                                    |
