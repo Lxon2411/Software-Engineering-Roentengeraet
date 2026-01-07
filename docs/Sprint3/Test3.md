@@ -187,6 +187,21 @@ Diese Tests prüfen einzelne Methoden/Algorithmen, NICHT das Zusammenspiel der G
 
 ---
 
+## Regressionstests (Sprint 1 Features)
+
+Alle Sprint 1 Testfälle wurden erneut ausgeführt um sicherzustellen, dass keine Regressionen auftraten:
+
+| Sprint 1 Testfall                   | Status      | Bemerkung                                       |
+|-------------------------------------|-------------|-------------------------------------------------|
+| M1 (Eingabevalidierung)             | ✓ bestanden | Korrekt geprüft                                 |
+| M2 (Fortschrittsberechnung)         | ✓ bestanden | Korrekte Prozentberechnung                      |
+| M3 (Automatisches Stoppen)          | ✓ bestanden | Stoppt automatisch nach Ablauf der Maximaldauer |
+| I1 (Kommunikation GUI & Controller) | ✓ bestanden | GUI ruft Controller richtig auf                 |
+| I2 (Controller aktualisiert UI)     | ✓ bestanden | Controller aktualisiert UI richtig              |
+| I3 (Systemfunktionen)               | ✓ bestanden | Controller nutzt Systemfunktionen korrekt       |
+
+**Regressionstests: 6/6 bestanden (100%)**
+
 ## Regressionstests (Sprint 2 Features)
 
 Alle Sprint 2 Testfälle wurden erneut ausgeführt um sicherzustellen, dass keine Regressionen auftraten:
