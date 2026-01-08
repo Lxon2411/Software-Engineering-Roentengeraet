@@ -3,14 +3,22 @@
   <option name="DESCRIPTION" value="Uncommitted changes before Update at 08.01.2026 13:51 [Changes]" />
   <binary>
     <option name="BEFORE_PATH" value=".idea/shelf/Uncommitted_changes_before_Update_at_10_12_2025_12_29_[Changes]/RadiationSimulator_v2.pkg" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
   </binary>
   <binary>
     <option name="BEFORE_PATH" value=".idea/shelf/Uncommitted_changes_before_Update_at_10_12_2025_12_29_[Changes]/PYZ-00.pyz" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
   </binary>
   <binary>
     <option name="BEFORE_PATH" value=".idea/shelf/Uncommitted_changes_before_Update_at_10_12_2025_12_29_[Changes]/RadiationSimulator_v2.exe" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
   </binary>
   <binary>
     <option name="BEFORE_PATH" value=".idea/shelf/Uncommitted_changes_before_Update_at_10_12_2025_12_29_[Changes]/base_library.zip" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
   </binary>
 </changelist>
