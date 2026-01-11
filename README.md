@@ -47,11 +47,5 @@ Es gibt zwei verschiedene Möglichkeiten, das Projekt zum Laufen zu bringen:
    - In der Python IDE (z.B. **PyCharm**) muss ein **Python-Interpreter** konfiguriert sein (*z.B. unter "File → Settings → Project → Python Interpreter"*)
 
 ## Erklärung
-Ich versichere, dass ich die Projektarbeit ohne Hilfe Dritter und ohne Benutzung anderer als
-der angegebenen Quellen und Hilfsmittel angefertigt habe. Die den benutzten Quellen wörtlich
-oder inhaltlich entnommenen Inhalte sind als solche kenntlich gemacht.
-Ich erteile hiermit der TH Deggendorf das Recht, die von mir erstellte Software für
-hochschulinterne Zwecke verwenden zu dürfen.
-
-Ort, Datum: ________________________ Unterschrift: ________________________
+![Erklaerung](./docs/images/Erklaerung.jpeg)
 

@@ -39,16 +39,16 @@ Architekturtyp: **Schichten-/Komponentenarchitektur** mit Trennung von Logik, St
 
 ## Schnittstellen zwischen den Komponenten
 
-| **Von**    | **An**       | **Beschreibung**                                        | Schnittstelle                                        |
-|------------|--------------|--------------------------------------------------------|------------------------------------------------------|
-| GUI        | Controller   | Liefert die eingegebene Strahlungsdauer (int)          | `RadiationController.start(duration: int)`           |
-| Controller | GUI          | Aktualisiert Fortschrittsbalken und Prozentanzeige    | `RadiationUI.update_progress(value, max_value)`     |
-| Controller | GUI          | Setzt Button auf deaktiviert während Strahlung läuft  | `tk.Button.config(state=tk.DISABLED)`                |
-| Controller | GUI          | Setzt Button auf aktiviert nach Beendigung            | `tk.Button.config(state=tk.NORMAL)`                  |
-| Controller | GUI          | Zeigt Abschluss-Messagebox an                          | `RadiationUI.show_finished_message(duration)`        |
-| Controller | GUI          | Setzt UI auf Initialzustand zurück                     | `RadiationUI.reset_ui()`                             |
-| Controller | System       | Erzeugt akustischen Signalton (Frequenz, Dauer)       | `winsound.Beep(frequenz: int, dauer: int)`           |
-| Controller | System       | Liest aktuelle Systemzeit für Zeitberechnung          | `time.time()`                                        |
+| **Von**    | **An**     | **Beschreibung**                                     | Schnittstelle                                   |
+|------------|------------|------------------------------------------------------|-------------------------------------------------|
+| GUI        | Controller | Liefert die eingegebene Strahlungsdauer (int)        | `RadiationController.start(duration: int)`      |
+| Controller | GUI        | Aktualisiert Fortschrittsbalken und Prozentanzeige   | `RadiationUI.update_progress(value, max_value)` |
+| Controller | GUI        | Setzt Button auf deaktiviert während Strahlung läuft | `tk.Button.config(state=tk.DISABLED)`           |
+| Controller | GUI        | Setzt Button auf aktiviert nach Beendigung           | `tk.Button.config(state=tk.NORMAL)`             |
+| Controller | GUI        | Zeigt Abschluss-Messagebox an                        | `RadiationUI.show_finished_message(duration)`   |
+| Controller | GUI        | Setzt UI auf Initialzustand zurück                   | `RadiationUI.reset_ui()`                        |
+| Controller | System     | Erzeugt akustischen Signalton (Frequenz, Dauer)      | `winsound.Beep(frequenz: int, dauer: int)`      |
+| Controller | System     | Liest aktuelle Systemzeit für Zeitberechnung         | `time.time()`                                   |
 
 ## Technologiestack
 
